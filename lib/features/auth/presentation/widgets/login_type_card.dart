@@ -27,18 +27,19 @@ class LoginTypeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mainColor =
-    isSelected ? AppColors.selectedOrange : AppColors.merchantBrown;
+    final Color mainColor = isSelected
+        ? AppColors.selectedOrange
+        : AppColors.merchantBrown;
 
     return GestureDetector(
       onTap: onTap,
-
       child: Container(
+        // Exact Figma size.
         width: 129.w,
         height: 91.h,
 
+        // No horizontal padding so the text gets enough width.
         padding: EdgeInsets.symmetric(
-          horizontal: 3.w,
           vertical: 5.h,
         ),
 
@@ -46,9 +47,7 @@ class LoginTypeCard extends StatelessWidget {
           color: isSelected
               ? AppColors.selectedCardBackground
               : AppColors.normalCardBackground,
-
           borderRadius: BorderRadius.circular(10.r),
-
           border: Border.all(
             color: mainColor,
             width: isSelected ? 1.2.w : 1.w,
@@ -60,29 +59,40 @@ class LoginTypeCard extends StatelessWidget {
           children: [
             Icon(
               icon,
-              size: 26.sp,
+              size: 28.sp,
               color: mainColor,
             ),
 
-            SizedBox(height: 2.h),
+            SizedBox(height: 3.h),
 
-            Text(
-              title,
-              maxLines: 1,
-              textAlign: TextAlign.center,
-              style: AppTextStyles.loginTypeTitle.copyWith(
-                color: mainColor,
+            // FittedBox only shrinks the text if the device
+            // doesn't have enough width.
+            SizedBox(
+              width: 121.w,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  title,
+                  maxLines: 1,
+                  style: AppTextStyles.loginTypeTitle.copyWith(
+                    color: mainColor,
+                  ),
+                ),
               ),
             ),
 
-            SizedBox(height: 2.h),
+            SizedBox(height: 3.h),
 
-            Text(
-              subtitle,
-              maxLines: 1,
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-              style: AppTextStyles.loginTypeSubtitle,
+            SizedBox(
+              width: 121.w,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  subtitle,
+                  maxLines: 1,
+                  style: AppTextStyles.loginTypeSubtitle,
+                ),
+              ),
             ),
           ],
         ),

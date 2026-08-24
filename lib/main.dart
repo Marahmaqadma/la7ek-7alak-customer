@@ -23,7 +23,7 @@ class La7ek7alakApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: AppTheme.lightTheme,
 
-          initialRoute: AppRouter.login,
+          initialRoute: AppRouter.sendVerificationCode,
           onGenerateRoute: AppRouter.onGenerateRoute,
 
           // Prevents the phone's large system font setting

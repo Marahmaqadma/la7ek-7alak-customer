@@ -7,6 +7,7 @@ class AppTheme {
       colorScheme: ColorScheme.fromSeed(seedColor: AppColors.orange),
       scaffoldBackgroundColor: AppColors.fieldBackground,
       useMaterial3: true,
+      fontFamily: 'Tajawal',
     );
   }
 }

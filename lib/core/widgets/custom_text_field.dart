@@ -26,6 +26,15 @@ class CustomTextField extends StatelessWidget {
   // Allows each screen to provide its own validation.
   final String? Function(String?)? validator;
 
+  final double? width;
+  final double? height;
+  final Color? enabledBorderColor;
+  final Color? focusedBorderColor;
+  final double borderRadius;
+  final TextDirection textDirection;
+  final TextStyle? textStyle;
+  final TextStyle? hintStyle;
+
   const CustomTextField({
     super.key,
     required this.hintText,
@@ -35,14 +44,22 @@ class CustomTextField extends StatelessWidget {
     this.suffixIcon,
     this.underlineHint = false,
     this.validator,
+    this.width,
+    this.height,
+    this.enabledBorderColor,
+    this.focusedBorderColor,
+    this.borderRadius = 10,
+    this.textDirection = TextDirection.rtl,
+    this.textStyle,
+    this.hintStyle,
   });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       // Exact TextField size from Figma.
-      width: 270.w,
-      height: 44.h,
+      width: (width ?? 270).w,
+      height: (height ?? 44).h,
       child: TextFormField(
         controller: controller,
         obscureText: obscureText,
@@ -50,23 +67,25 @@ class CustomTextField extends StatelessWidget {
         validator: validator,
 
         // Arabic input starts from the right.
-        textDirection: TextDirection.rtl,
+        textDirection: textDirection,
         textAlign: TextAlign.right,
         textAlignVertical: TextAlignVertical.center,
 
         // Style of text entered by the user.
-        style: AppTextStyles.fieldHint.copyWith(
-          color: AppColors.darkBrown,
-        ),
+        style: textStyle ??
+            AppTextStyles.fieldHint.copyWith(
+              color: AppColors.darkBrown,
+            ),
 
         decoration: InputDecoration(
           hintText: hintText,
 
           // Style of the placeholder.
-          hintStyle: AppTextStyles.fieldHint.copyWith(
-            decoration:
-            underlineHint ? TextDecoration.underline : TextDecoration.none,
-          ),
+          hintStyle: hintStyle ??
+              AppTextStyles.fieldHint.copyWith(
+                decoration:
+                    underlineHint ? TextDecoration.underline : TextDecoration.none,
+              ),
 
           // Enables the Figma background color.
           filled: true,
@@ -88,18 +107,18 @@ class CustomTextField extends StatelessWidget {
           ),
 
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.r),
-            borderSide: const BorderSide(
-              color: AppColors.fieldBorder,
+            borderRadius: BorderRadius.circular(borderRadius.r),
+            borderSide: BorderSide(
+              color: enabledBorderColor ?? AppColors.fieldBorder,
               width: 1,
             ),
           ),
 
           // Border when the user taps the field.
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.r),
-            borderSide: const BorderSide(
-              color: AppColors.orange,
+            borderRadius: BorderRadius.circular(borderRadius.r),
+            borderSide: BorderSide(
+              color: focusedBorderColor ?? AppColors.orange,
               width: 1,
             ),
           ),
