@@ -29,9 +29,63 @@ class _RegisterPageState extends State<RegisterPage> {
 
   // State
   String? _selectedCity;
-  bool _phoneValid = true;
-  bool _passwordValid = true;
+  bool _phoneValid = false;
+  bool _emailValid = false;
+  bool _passwordValid = false;
+  bool _isPasswordObscured = true; // تعني أن كلمة المرور مشفرة مبدئياً
+  @override
+  void initState() {
+    super.initState();
 
+    // Listener البريد الإلكتروني
+    _emailController.addListener(() {
+      final isValid = _isEmailValid(_emailController.text);
+      if (_emailValid != isValid) {
+        setState(() {
+          _emailValid = isValid;
+        });
+      }
+    });
+
+    // Listener رقم الهاتف
+    _phoneController.addListener(() {
+      final isValid = _isPhoneValid(_phoneController.text);
+      if (_phoneValid != isValid) {
+        setState(() {
+          _phoneValid = isValid;
+        });
+      }
+    });
+
+    // Listener كلمة المرور
+    _passwordController.addListener(() {
+      final isValid = _isPasswordCompliant(_passwordController.text);
+      if (_passwordValid != isValid) {
+        setState(() {
+          _passwordValid = isValid;
+        });
+      }
+    });
+  }
+
+
+  bool _isPasswordCompliant(String password) {
+    final hasMinLength = password.length >= 8;
+    final hasLetter = password.contains(RegExp(r'[a-zA-Z]'));
+    final hasDigits = password.contains(RegExp(r'[0-9]'));
+    final hasSpecialCharacters = password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
+    return hasMinLength && hasLetter && hasDigits && hasSpecialCharacters;
+  }
+
+  bool _isEmailValid(String email) {
+    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    return emailRegex.hasMatch(email.trim());
+  }
+
+  bool _isPhoneValid(String phone) {
+    final digitsOnly = phone.replaceAll(RegExp(r'\D'), '');
+    return digitsOnly.length >= 10;
+  }
   @override
   void dispose() {
     _fullNameController.dispose();
@@ -137,17 +191,20 @@ class _RegisterPageState extends State<RegisterPage> {
                           label: 'البريد الإلكتروني',
                           hint: 'alaa@gmail.com',
                           controller: _emailController,
-                          errorText: 'البريد مسجل مسبقا او غير صالح.',
+                          errorText: (_emailController.text.isNotEmpty && !_emailValid)
+                              ? 'صيغة البريد الإلكتروني غير صالحة'
+                              : null,
+                          showCheck: true,
+                          isChecked: _emailValid,
                         ),
                         SizedBox(height: 12.h),
                         _buildInputField(
                           label: 'رقم الهاتف (للتوثيق)',
-                          hint: '\u200E+970 590 000 000',
+                          hint: '\u200E 059 000 0000',
                           controller: _phoneController,
-                          helperText: 'يجب ان يحتوي على 10 خانات.',
+                          helperText: '.يجب ان يحتوي على 10 خانات',
                           showCheck: true,
                           isChecked: _phoneValid,
-                          onCheckTap: () => setState(() => _phoneValid = !_phoneValid),
                           textDirection: TextDirection.ltr,
                           textAlign: TextAlign.right,
                         ),
@@ -156,11 +213,17 @@ class _RegisterPageState extends State<RegisterPage> {
                           label: 'كلمة المرور',
                           hint: '********',
                           controller: _passwordController,
-                          isPassword: true,
+                          isPassword: _isPasswordObscured,
                           helperText: 'يجب أن تحتوي كلمة المرور على 8 خانات (حروف , أرقام , رموز).',
                           showCheck: true,
                           isChecked: _passwordValid,
-                          onCheckTap: () => setState(() => _passwordValid = !_passwordValid),
+                          onCheckTap:null,
+                          onEyeTap: () { // تم إضافة دالة الضغط على العين هنا
+                            setState(() {
+                              _isPasswordObscured = !_isPasswordObscured;
+                            });
+                          },
+
                         ),
                         SizedBox(height: 12.h),
                         _buildDropdownField(
@@ -245,6 +308,7 @@ class _RegisterPageState extends State<RegisterPage> {
     bool isChecked = false,
     VoidCallback? onCheckTap,
     TextDirection? textDirection,
+    VoidCallback? onEyeTap,
     TextAlign textAlign = TextAlign.right,
   }) {
     return Column(
@@ -284,9 +348,21 @@ class _RegisterPageState extends State<RegisterPage> {
             prefixIcon: isPassword
                 ? Icon(Icons.lock, size: 18.sp, color: mainTitleColor) // Composite-style lock icon
                 : null,
-            suffixIcon: isPassword
-                ? Icon(Icons.visibility_off_outlined, size: 20.sp, color: hintTextColor)
+            suffixIcon: onEyeTap != null
+                ? IconButton(
+              icon: Icon(
+                // هنا السحر! إذا كانت مخفية أظهر عين مغلقة، وإذا كانت مرئية أظهر عين مفتوحة
+                isPassword
+                    ? Icons.visibility_off_outlined // الأيقونة الحالية: مخفية
+                    : Icons.visibility_outlined,    // الأيقونة الجديدة: مرئية
+                size: 20.sp,
+                color: hintTextColor,
+              ),
+              onPressed: onEyeTap, // هذا لربط الضغطة بالدالة التي تعكس الحالة
+            )
                 : null,
+
+
           ),
         ),
         if (errorText != null)

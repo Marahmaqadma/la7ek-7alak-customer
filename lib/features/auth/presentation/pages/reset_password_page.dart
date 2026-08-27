@@ -14,7 +14,16 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
   final TextEditingController _newPasswordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
-
+  @override
+  void initState() {
+    super.initState();
+    _newPasswordController.addListener(() {
+      setState(() {});
+    });
+    _confirmPasswordController.addListener(() {
+      setState(() {});
+    });
+  }
   @override
   void dispose() {
     _newPasswordController.dispose();
@@ -108,9 +117,17 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                           ),
                           SizedBox(height: 20.h),
                           // Validation Hints
-                          _buildValidationItem("يجب أن تحتوي كلمة المرور على 8 خانات (حروف , أرقام , رموز)."),
+                          _buildValidationItem(
+                            "يجب أن تحتوي كلمة المرور على 8 خانات (حروف , أرقام , رموز).",
+                            isValid: _newPasswordController.text.length >= 8,
+                          ),
                           SizedBox(height: 8.h),
-                          _buildValidationItem("يجب تطابق كلمتي المرور."),
+                          _buildValidationItem(
+                            "يجب تطابق كلمتي المرور.",
+                            isValid: _newPasswordController.text.isNotEmpty &&
+                                _newPasswordController.text == _confirmPasswordController.text,
+                          ),
+
                           SizedBox(height: 30.h),
                           // Submit Button
                           SizedBox(
@@ -205,15 +222,15 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       ),
     );
   }
-
-  Widget _buildValidationItem(String text) {
+  Widget _buildValidationItem(String text, {bool isValid = false}) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Icon(
-          Icons.check_box,
+          // تبديل شكل الأيقونة فقط: مربع محدد عند الصحة، ومربع فارغ عند الخطأ
+          isValid ? Icons.check_box : Icons.check_box_outline_blank,
           size: 16.sp,
-          color: const Color(0xFFC05A34),
+          color: const Color(0xFFC05A34), // اللون ثابت دائماً
         ),
         SizedBox(width: 8.w),
         Expanded(
@@ -221,12 +238,13 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
             text,
             style: TextStyle(
               fontSize: 10.sp,
-              color: const Color(0xFFC05A34),
-              fontWeight: FontWeight.w300, // Matching 350 approx
+              color: const Color(0xFFC05A34), // اللون ثابت دائماً
+              fontWeight: FontWeight.w300,
             ),
           ),
         ),
       ],
     );
   }
+
 }
