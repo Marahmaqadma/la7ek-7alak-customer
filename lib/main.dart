@@ -20,6 +20,7 @@ class La7ek7alakApp extends StatelessWidget {
 
       builder: (context, child) {
         return MaterialApp(
+          theme: ThemeData(fontFamily: 'Tajawal'),
           debugShowCheckedModeBanner: false,
           theme: AppTheme.lightTheme,
 
