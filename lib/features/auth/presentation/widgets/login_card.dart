@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../pages/send_verification_code_page.dart';
+
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/custom_text_field.dart';
 import 'auth_link_text.dart';
 import 'login_type_card.dart';
-import '../pages/register_page.dart';
 
 class LoginCard extends StatefulWidget {
   final VoidCallback onForgotPassword;
@@ -123,14 +122,7 @@ class _LoginCardState extends State<LoginCard> {
           Align(
             alignment: Alignment.centerLeft,
             child: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const SendVerificationCodePage(),
-                  ),
-                );
-              },
+              onTap: widget.onForgotPassword,
               child: Text(
                 'نسيت كلمة المرور؟',
                 style: AppTextStyles.linkText,
@@ -213,14 +205,7 @@ class _LoginCardState extends State<LoginCard> {
             child: AuthLinkText(
               text: 'ليس لديك حساب؟ ',
               actionText: 'إنشاء حساب جديد',
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const RegisterPage(),
-                  ),
-                );
-              },
+              onTap: widget.onCreateAccount,
             ),
           ),
 

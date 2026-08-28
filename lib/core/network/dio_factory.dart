@@ -1,0 +1,3 @@
+class DioFactory {
+  const DioFactory();
+}
