@@ -64,7 +64,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                     SizedBox(height: 4.h),
                     // Subtitle
                     Text(
-                      "سيتم إرسال كود التحقق عبر الإيميل",
+                      "",
                       style: TextStyle(
                         fontSize: 10.sp,
                         fontWeight: FontWeight.w400,
