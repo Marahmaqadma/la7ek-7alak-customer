@@ -40,6 +40,7 @@ dependencies:
   retrofit: ^4.1.0
   dartz: ^0.10.1
   json_annotation: ^4.9.0
+  flutter_secure_storage: ^9.2.4
 
 dev_dependencies:
   flutter_test:
@@ -60,9 +61,9 @@ flutter_launcher_icons:
 
 flutter_native_splash:
   color: "#ffffff"
-  image: assets/images/logo.png
+  image: assets/images/splash_logo.png
   android_12:
-    image: assets/images/logo.png
+    image: assets/images/splash_logo.png
     icon_background_color: "#ffffff"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -74,10 +75,9 @@ flutter:
   assets:
      - assets/images/
 
-
-fonts:
-  - family: Tajawal
-    fonts:
-      - asset: assets/fonts/Tajawal-Regular.ttf
-      - asset: assets/fonts/Tajawal-Bold.ttf
-        weight: 700
+  fonts:
+    - family: Tajawal
+      fonts:
+        - asset: assets/fonts/Tajawal-Regular.ttf
+        - asset: assets/fonts/Tajawal-Bold.ttf
+          weight: 700
