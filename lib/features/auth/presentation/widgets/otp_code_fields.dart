@@ -98,7 +98,7 @@ class _OtpField extends StatelessWidget {
         decoration: InputDecoration(
           hintText: hintText,
           hintStyle: AppTextStyles.codeDigit.copyWith(
-            color: AppColors.mutedText.withOpacity(0.35),
+            color: AppColors.mutedText.withValues(alpha: 0.35),
           ),
           counterText: '',
           filled: true,

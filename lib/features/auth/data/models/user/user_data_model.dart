@@ -18,6 +18,7 @@ class UserDataModel {
 
   UserDataModel({this.id, this.fullName, this.email, this.role});
 
-  factory UserDataModel.fromJson(Map<String, dynamic> json) => _$UserDataModelFromJson(json);
+  factory UserDataModel.fromJson(Map<String, dynamic> json) =>
+      _$UserDataModelFromJson(json);
   Map<String, dynamic> toJson() => _$UserDataModelToJson(this);
 }

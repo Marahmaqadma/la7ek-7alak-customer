@@ -12,11 +12,9 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.pageBackground,
-
       body: SafeArea(
         child: Directionality(
           textDirection: TextDirection.rtl,
-
           child: SingleChildScrollView(
             child: Center(
               child: SizedBox(
@@ -26,21 +24,17 @@ class LoginPage extends StatelessWidget {
                 child: Column(
                   children: [
                     const LoginHeader(),
-
                     LoginCard(
                       onForgotPassword: () {
                         // TODO: Go to forgot password page.
                       },
-
                       onCreateAccount: () {
                         // TODO: Go to register page.
                       },
-
                       onAdminLogin: () {
                         // TODO: Admin login.
                       },
                     ),
-
                     SizedBox(height: 20.h),
                   ],
                 ),

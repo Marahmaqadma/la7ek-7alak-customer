@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'verify_otp_request_body.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(createFactory: false)
 class VerifyOtpRequestBody {
   final String email;
   final String otp;

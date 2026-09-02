@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../data/models/verify_otp_request_body.dart';
-import '../../../data/models/verify_otp_response.dart';
+import '../../../data/models/verify_otp/verify_otp_request_body.dart';
+import '../../../data/models/verify_otp/verify_otp_response.dart';
 import '../../../domain/repositories/auth_repository.dart';
 
 part 'verify_otp_state.dart';

@@ -25,9 +25,9 @@ class UserData {
   });
 
   factory UserData.fromJson(Map<String, dynamic> json) => UserData(
-    id: json['id'],
-    fullName: json['fullName'],
-    email: json['email'],
-    role: json['role'],
-  );
+        id: json['id'],
+        fullName: json['fullName'],
+        email: json['email'],
+        role: json['role'],
+      );
 }

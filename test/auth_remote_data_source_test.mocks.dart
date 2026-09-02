@@ -7,25 +7,25 @@ import 'dart:async' as _i8;
 
 import 'package:la7ek_7alak/features/auth/data/datasources/auth_remote_data_source.dart'
     as _i7;
-import 'package:la7ek_7alak/features/auth/data/models/forgot_password_request_body.dart'
+import 'package:la7ek_7alak/features/auth/data/models/forgot_password/forgot_password_request_body.dart'
     as _i11;
-import 'package:la7ek_7alak/features/auth/data/models/forgot_password_response.dart'
+import 'package:la7ek_7alak/features/auth/data/models/forgot_password/forgot_password_response.dart'
     as _i4;
-import 'package:la7ek_7alak/features/auth/data/models/login_request_body.dart'
+import 'package:la7ek_7alak/features/auth/data/models/login/login_request_body.dart'
     as _i9;
-import 'package:la7ek_7alak/features/auth/data/models/login_response.dart'
+import 'package:la7ek_7alak/features/auth/data/models/login/login_response.dart'
     as _i2;
-import 'package:la7ek_7alak/features/auth/data/models/register_request_body.dart'
+import 'package:la7ek_7alak/features/auth/data/models/register/register_request_body.dart'
     as _i10;
-import 'package:la7ek_7alak/features/auth/data/models/register_response.dart'
+import 'package:la7ek_7alak/features/auth/data/models/register/register_response.dart'
     as _i3;
-import 'package:la7ek_7alak/features/auth/data/models/reset_password_request_body.dart'
+import 'package:la7ek_7alak/features/auth/data/models/reset_password/reset_password_request_body.dart'
     as _i13;
-import 'package:la7ek_7alak/features/auth/data/models/reset_password_response.dart'
+import 'package:la7ek_7alak/features/auth/data/models/reset_password/reset_password_response.dart'
     as _i6;
-import 'package:la7ek_7alak/features/auth/data/models/verify_otp_request_body.dart'
+import 'package:la7ek_7alak/features/auth/data/models/verify_otp/verify_otp_request_body.dart'
     as _i12;
-import 'package:la7ek_7alak/features/auth/data/models/verify_otp_response.dart'
+import 'package:la7ek_7alak/features/auth/data/models/verify_otp/verify_otp_response.dart'
     as _i5;
 import 'package:mockito/mockito.dart' as _i1;
 

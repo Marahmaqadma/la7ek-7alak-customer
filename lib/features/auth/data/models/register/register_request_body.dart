@@ -14,10 +14,10 @@ class RegisterRequestBody {
   });
 
   Map<String, dynamic> toJson() => {
-    'fullName': fullName,
-    'email': email,
-    'password': password,
-    'role': role,
-    'phone': phone,
-  };
+        'fullName': fullName,
+        'email': email,
+        'password': password,
+        'role': role,
+        'phone': phone,
+      };
 }

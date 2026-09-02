@@ -8,7 +8,7 @@ import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/utils/validators.dart';
 import '../../../../core/widgets/custom_button.dart';
 import '../../../../core/widgets/custom_text_field.dart';
-import '../../data/models/login_request_body.dart';
+import '../../data/models/login/login_request_body.dart';
 import '../cubit/login/login_cubit.dart';
 import 'auth_link_text.dart';
 import 'login_type_card.dart';
@@ -35,6 +35,7 @@ class _LoginCardState extends State<LoginCard> {
   final passwordController = TextEditingController();
 
   LoginType selectedType = LoginType.consumer;
+  bool _isPasswordObscured = true;
 
   @override
   void dispose() {
@@ -111,12 +112,21 @@ class _LoginCardState extends State<LoginCard> {
                 CustomTextField(
                   controller: passwordController,
                   hintText: '••••••••••',
-                  obscureText: true,
+                  obscureText: _isPasswordObscured,
                   validator: Validators.password,
-                  suffixIcon: Icon(
-                    Icons.remove_red_eye_outlined,
-                    size: 21.sp,
-                    color: AppColors.darkBrown,
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _isPasswordObscured = !_isPasswordObscured;
+                      });
+                    },
+                    icon: Icon(
+                      _isPasswordObscured
+                          ? Icons.visibility_off_outlined
+                          : Icons.visibility_outlined,
+                      size: 21.sp,
+                      color: AppColors.darkBrown,
+                    ),
                   ),
                 ),
 

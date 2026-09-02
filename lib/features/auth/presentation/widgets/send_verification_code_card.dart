@@ -9,8 +9,8 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/utils/validators.dart';
 import '../../../../core/widgets/custom_button.dart';
-import '../../data/models/forgot_password_request_body.dart';
-import '../../data/models/verify_otp_request_body.dart';
+import '../../data/models/forgot_password/forgot_password_request_body.dart';
+import '../../data/models/verify_otp/verify_otp_request_body.dart';
 import '../cubit/forgot_password/forgot_password_cubit.dart';
 import '../cubit/verify_otp/verify_otp_cubit.dart';
 import 'otp_code_fields.dart';
@@ -231,7 +231,9 @@ class ResendTimerText extends StatelessWidget {
       child: Text.rich(
         textAlign: TextAlign.center,
         TextSpan(
-          text: isRunning ? 'إعادة إرسال الكود خلال ' : 'يمكنك إعادة إرسال الكود الآن',
+          text: isRunning
+              ? 'إعادة إرسال الكود خلال '
+              : 'يمكنك إعادة إرسال الكود الآن',
           style: AppTextStyles.captionMuted,
           children: [
             if (isRunning)

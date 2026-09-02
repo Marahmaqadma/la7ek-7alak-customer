@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../data/models/reset_password_request_body.dart';
-import '../../../data/models/reset_password_response.dart';
+import '../../../data/models/reset_password/reset_password_request_body.dart';
+import '../../../data/models/reset_password/reset_password_response.dart';
 import '../../../domain/repositories/auth_repository.dart';
 
 part 'reset_password_state.dart';

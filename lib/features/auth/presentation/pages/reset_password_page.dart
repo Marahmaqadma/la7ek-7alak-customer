@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/utils/validators.dart';
-import '../../data/models/reset_password_request_body.dart';
+import '../../data/models/reset_password/reset_password_request_body.dart';
 import '../cubit/reset_password/reset_password_cubit.dart';
 
 class ResetPasswordPage extends StatefulWidget {

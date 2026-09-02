@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/routing/app_router.dart';
 import '../../../../core/utils/validators.dart';
-import '../../data/models/register_request_body.dart';
+import '../../data/models/register/register_request_body.dart';
 import '../cubit/register/register_cubit.dart';
 
 class RegisterPage extends StatefulWidget {

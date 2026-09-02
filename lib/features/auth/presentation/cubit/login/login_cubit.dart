@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../data/models/login_request_body.dart';
-import '../../../data/models/login_response.dart';
+import '../../../data/models/login/login_request_body.dart';
+import '../../../data/models/login/login_response.dart';
 import '../../../domain/repositories/auth_repository.dart';
 
 part 'login_state.dart';

@@ -27,9 +27,8 @@ class LoginTypeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color mainColor = isSelected
-        ? AppColors.selectedOrange
-        : AppColors.merchantBrown;
+    final Color mainColor =
+        isSelected ? AppColors.selectedOrange : AppColors.merchantBrown;
 
     return GestureDetector(
       onTap: onTap,

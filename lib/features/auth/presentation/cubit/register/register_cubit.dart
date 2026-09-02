@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../data/models/register_request_body.dart';
-import '../../../data/models/register_response.dart';
+import '../../../data/models/register/register_request_body.dart';
+import '../../../data/models/register/register_response.dart';
 import '../../../domain/repositories/auth_repository.dart';
 
 part 'register_state.dart';

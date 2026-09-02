@@ -33,7 +33,6 @@ class AuthLinkText extends StatelessWidget {
           text,
           style: AppTextStyles.secondaryText,
         ),
-
         GestureDetector(
           // Only the action text is clickable.
           onTap: onTap,

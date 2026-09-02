@@ -3,16 +3,16 @@ import '../../../../core/error/error_handler.dart'; // تأكدي من مسار 
 import '../../../../core/services/storage_service.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../datasources/auth_remote_data_source.dart';
-import '../models/register_response.dart';
-import '../models/login_request_body.dart';
-import '../models/register_request_body.dart';
-import '../models/login_response.dart';
-import '../models/forgot_password_request_body.dart';
-import '../models/forgot_password_response.dart';
-import '../models/verify_otp_request_body.dart';
-import '../models/verify_otp_response.dart';
-import '../models/reset_password_request_body.dart';
-import '../models/reset_password_response.dart';
+import '../models/register/register_response.dart';
+import '../models/login/login_request_body.dart';
+import '../models/register/register_request_body.dart';
+import '../models/login/login_response.dart';
+import '../models/forgot_password/forgot_password_request_body.dart';
+import '../models/forgot_password/forgot_password_response.dart';
+import '../models/verify_otp/verify_otp_request_body.dart';
+import '../models/verify_otp/verify_otp_response.dart';
+import '../models/reset_password/reset_password_request_body.dart';
+import '../models/reset_password/reset_password_response.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   // remoteDataSource هو المكان الذي ينفذ طلبات API الفعلية.
