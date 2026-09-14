@@ -3,8 +3,9 @@ class Validators {
 
   static final RegExp _emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
 
+  // السماح بكلمة مرور تتكون من أحرف وأرقام بطول 8 خانات على الأقل
   static final RegExp _passwordRegex = RegExp(
-    r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$',
+    r'^(?=.*[A-Za-z])(?=.*\d).{8,}$',
   );
 
   static String? requiredField(String? value, {String fieldName = 'الحقل'}) {

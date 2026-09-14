@@ -2,9 +2,10 @@ plugins {
     id "com.android.application"
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
+    id "com.google.gms.google-services"
 }
 
-def localProperties = new Properties()
+/*def localProperties = new java.util.Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
     localPropertiesFile.withReader('UTF-8') { reader ->
@@ -21,11 +22,11 @@ def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
-
+*/
 android {
     namespace "com.example.la7ek_7alak"
     compileSdk flutter.compileSdkVersion
-    ndkVersion flutter.ndkVersion
+    ndkVersion "27.0.12077973"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -39,16 +40,12 @@ android {
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
-
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.example.la7ek_7alak"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 23
         targetSdkVersion flutter.targetSdkVersion
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        versionCode 1
+        versionName "1.0"
     }
 
     buildTypes {

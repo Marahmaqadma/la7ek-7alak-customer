@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "212802545238",
+    "project_id": "lahek-halak",
+    "storage_bucket": "lahek-halak.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:212802545238:android:a05200bed017f20e187df7",
+        "android_client_info": {
+          "package_name": "com.example.la7ek_7alak"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "212802545238-t5a7us0rno1adnqqtdg190n3v3ioolso.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_fxTER8KUFsrVmzz6exX3Rz3iRdZ7GLg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "212802545238-t5a7us0rno1adnqqtdg190n3v3ioolso.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

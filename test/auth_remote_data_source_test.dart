@@ -31,7 +31,7 @@ void main() {
 
   group('AuthRepositoryImpl Unit Tests', () {
     final tLoginRequestBody = LoginRequestBody(
-      email: 'admin@gmail.com',
+      email: 'admin @gmail.com',
       password: '123456',
     );
 
