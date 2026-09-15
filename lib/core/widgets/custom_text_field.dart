@@ -3,7 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_text_styles.dart';
 
+// حقل إدخال مشترك يدعم التحقق وإخفاء كلمة المرور وتخصيص المظهر.
 class CustomTextField extends StatelessWidget {
+  final EdgeInsetsGeometry? contentPadding;
+  final bool? isDense;
+  final TextAlign? textAlign;
   final TextEditingController controller;
   final String hintText;
   final bool obscureText;
@@ -16,6 +20,7 @@ class CustomTextField extends StatelessWidget {
   final TextDirection? textDirection;
   final Color? enabledBorderColor;
   final Color? focusedBorderColor;
+  final Color? fillColor;
   final TextStyle? textStyle;
   final TextStyle? hintStyle;
   final FormFieldValidator<String>? validator;
@@ -25,6 +30,9 @@ class CustomTextField extends StatelessWidget {
     super.key,
     required this.controller,
     required this.hintText,
+    this.contentPadding,
+    this.isDense,
+    this.textAlign,
     this.obscureText = false,
     this.keyboardType = TextInputType.text,
     this.suffixIcon,
@@ -35,6 +43,7 @@ class CustomTextField extends StatelessWidget {
     this.textDirection,
     this.enabledBorderColor,
     this.focusedBorderColor,
+    this.fillColor,
     this.textStyle,
     this.hintStyle,
     this.validator,
@@ -52,25 +61,26 @@ class CustomTextField extends StatelessWidget {
           obscureText: obscureText,
           keyboardType: keyboardType,
           textDirection: textDirection,
+          textAlign: textAlign ?? TextAlign.start,
           validator: validator,
           autovalidateMode: autovalidateMode,
-          style:
-              textStyle ??
+          style: textStyle ??
               TextStyle(fontSize: 14.sp, color: AppColors.darkBrown),
           decoration: InputDecoration(
             hintText: hintText,
-            hintStyle:
-                hintStyle ??
+            hintStyle: hintStyle ??
                 AppTextStyles.fieldHint.copyWith(
                   decoration: underlineHint ? TextDecoration.underline : null,
                 ),
             suffixIcon: suffixIcon,
             filled: true,
-            fillColor: AppColors.fieldBackground,
-            contentPadding: EdgeInsets.symmetric(
-              horizontal: 15.w,
-              vertical: 12.h,
-            ),
+            fillColor: fillColor ?? AppColors.fieldBackground,
+            isDense: isDense,
+            contentPadding: contentPadding ??
+                EdgeInsets.symmetric(
+                  horizontal: 15.w,
+                  vertical: 12.h,
+                ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(borderRadius?.r ?? 10.r),
               borderSide: BorderSide(

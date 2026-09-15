@@ -1,3 +1,4 @@
+// بيانات طلب إنشاء الحساب التي تُمرر إلى مصدر المصادقة.
 class RegisterRequestBody {
   final String fullName;
   final String email;
@@ -13,6 +14,7 @@ class RegisterRequestBody {
     required this.phone,
   });
 
+  // يحوّل الحقول إلى مفاتيح JSON التي تتوقعها الخدمة.
   Map<String, dynamic> toJson() => {
         'fullName': fullName,
         'email': email,

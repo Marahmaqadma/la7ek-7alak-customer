@@ -16,6 +16,7 @@ import '../cubit/verify_otp/verify_otp_cubit.dart';
 import 'otp_code_fields.dart';
 import 'send_code_email_form.dart';
 
+// واجهة رمز التحقق للخدمة السابقة؛ ليست شاشة الاستعادة المستخدمة مع Firebase.
 class SendVerificationCodeCard extends StatefulWidget {
   const SendVerificationCodeCard({super.key});
 
@@ -24,22 +25,21 @@ class SendVerificationCodeCard extends StatefulWidget {
       _SendVerificationCodeCardState();
 }
 
+// يدير خانات الرمز والتنقل بينها ومؤقت إعادة الإرسال.
 class _SendVerificationCodeCardState extends State<SendVerificationCodeCard> {
-  // مفاتيح الفورم تستخدم للتحقق من صحة الإيميل والـ OTP قبل إرسال الطلب.
+
   final _emailFormKey = GlobalKey<FormState>();
   final _otpFormKey = GlobalKey<FormState>();
 
-  // Controllers تحفظ ما يكتبه المستخدم في حقول الإيميل والرمز.
   final emailController = TextEditingController();
   final otpControllers = List.generate(6, (_) => TextEditingController());
 
-  // FocusNodes تنقل المؤشر تلقائيا بين خانات OTP.
   final otpFocusNodes = List.generate(6, (_) => FocusNode());
 
-  // هذه المتغيرات مسؤولة عن عداد إعادة إرسال الكود.
   Timer? _timer;
   int _secondsLeft = 0;
 
+  // يحرر متحكمات الحقول والموارد المستخدمة عند إغلاق الواجهة.
   @override
   void dispose() {
     _timer?.cancel();
@@ -56,8 +56,9 @@ class _SendVerificationCodeCardState extends State<SendVerificationCodeCard> {
     super.dispose();
   }
 
+  // يعيد بدء عداد 45 ثانية ويحدّث الوقت المعروض كل ثانية.
   void _startTimer() {
-    // عند إرسال كود جديد، أوقف أي عداد قديم وابدأ من 45 ثانية.
+
     _timer?.cancel();
     setState(() => _secondsLeft = 45);
 
@@ -71,13 +72,13 @@ class _SendVerificationCodeCardState extends State<SendVerificationCodeCard> {
     });
   }
 
+  // ينقل التركيز للخانة التالية عند الكتابة وللسابقة عند الحذف.
   void _onOtpChanged(String value, int index) {
-    // إذا كتب المستخدم رقما، انتقل للخانة التالية تلقائيا.
+
     if (value.isNotEmpty && index < otpFocusNodes.length - 1) {
       otpFocusNodes[index + 1].requestFocus();
     }
 
-    // إذا حذف الرقم، ارجع للخانة السابقة ليسهل تعديل الرمز.
     if (value.isEmpty && index > 0) {
       otpFocusNodes[index - 1].requestFocus();
     }
@@ -85,7 +86,7 @@ class _SendVerificationCodeCardState extends State<SendVerificationCodeCard> {
 
   @override
   Widget build(BuildContext context) {
-    // نقرأ حالة إرسال الإيميل وحالة التحقق من OTP حتى نغير الواجهة حسب الحالة.
+
     final forgotPasswordState = context.watch<ForgotPasswordCubit>().state;
     final verifyOtpState = context.watch<VerifyOtpCubit>().state;
     final isSendingCode = forgotPasswordState is ForgotPasswordLoading;
@@ -93,11 +94,12 @@ class _SendVerificationCodeCardState extends State<SendVerificationCodeCard> {
 
     return MultiBlocListener(
       listeners: [
-        // هذا listener يشتغل عندما يرجع طلب إرسال الكود بنجاح أو خطأ.
+
         BlocListener<ForgotPasswordCubit, ForgotPasswordState>(
+          // يتابع نتيجة الطلب لإظهار رسالة للمستخدم أو الانتقال إلى الشاشة التالية.
           listener: (context, state) {
             if (state is ForgotPasswordSuccess) {
-              // عند النجاح: ابدأ التايمر واعرض رسالة للمستخدم.
+
               _startTimer();
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
@@ -108,25 +110,26 @@ class _SendVerificationCodeCardState extends State<SendVerificationCodeCard> {
                 ),
               );
             } else if (state is ForgotPasswordError) {
-              // عند الخطأ: اعرض رسالة الخطأ التي رجعت من Repository.
+
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(state.error)),
               );
             }
           },
         ),
-        // هذا listener يشتغل عندما يرجع طلب التحقق من OTP بنجاح أو خطأ.
+
         BlocListener<VerifyOtpCubit, VerifyOtpState>(
+          // يتابع نتيجة الطلب لإظهار رسالة للمستخدم أو الانتقال إلى الشاشة التالية.
           listener: (context, state) {
             if (state is VerifyOtpSuccess) {
-              // عند نجاح OTP: انتقل لصفحة إعادة تعيين كلمة المرور ومعك نفس الإيميل.
+
               Navigator.pushNamed(
                 context,
                 AppRouter.resetPassword,
                 arguments: emailController.text.trim(),
               );
             } else if (state is VerifyOtpError) {
-              // عند فشل OTP: اعرض رسالة الخطأ.
+
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(state.error)),
               );
@@ -151,7 +154,7 @@ class _SendVerificationCodeCardState extends State<SendVerificationCodeCard> {
                   validator: Validators.email,
                   isLoading: isSendingCode,
                   onSendCode: () {
-                    // لا ترسل الطلب إلا إذا كان الإيميل صحيح.
+
                     if (_emailFormKey.currentState!.validate()) {
                       context.read<ForgotPasswordCubit>().forgotPassword(
                             ForgotPasswordRequestBody(
@@ -170,7 +173,7 @@ class _SendVerificationCodeCardState extends State<SendVerificationCodeCard> {
                   controllers: otpControllers,
                   focusNodes: otpFocusNodes,
                   activeCount: otpControllers.length,
-                  // هذه أمثلة خفيفة داخل الخانات فقط، ليست أرقام حقيقية.
+
                   hints: const ['5', '8', '', '', '', ''],
                   validator: Validators.otpDigit,
                   onChanged: _onOtpChanged,
@@ -185,8 +188,9 @@ class _SendVerificationCodeCardState extends State<SendVerificationCodeCard> {
                   ? const Center(child: CircularProgressIndicator())
                   : CustomButton.dark(
                       text: 'تحقق',
+                      // لا يرسل الطلب إلا بعد اجتياز الحقول لقواعد التحقق.
                       onTap: () {
-                        // لا ترسل OTP للسيرفر إلا إذا كل خانة فيها رقم.
+
                         if (_otpFormKey.currentState!.validate()) {
                           context.read<VerifyOtpCubit>().verifyOtp(
                                 VerifyOtpRequestBody(
@@ -208,13 +212,15 @@ class _SendVerificationCodeCardState extends State<SendVerificationCodeCard> {
   }
 }
 
+// يعرض الوقت المتبقي قبل السماح بإعادة إرسال الرمز.
 class ResendTimerText extends StatelessWidget {
   final int secondsLeft;
 
   const ResendTimerText({super.key, required this.secondsLeft});
 
+  // ينسّق مدة الانتظار لتظهر بالدقائق والثواني.
   String get time {
-    // نحول الثواني إلى شكل 00:45 حتى تظهر بشكل واضح في الشاشة.
+
     final minutes = (secondsLeft ~/ 60).toString().padLeft(2, '0');
     final seconds = (secondsLeft % 60).toString().padLeft(2, '0');
     return '$minutes:$seconds';

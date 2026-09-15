@@ -6,23 +6,24 @@ import '../../../domain/repositories/auth_repository.dart';
 
 part 'register_state.dart';
 
+// يدير طلب إنشاء الحساب وينقل الواجهة بين الانتظار والنجاح والخطأ.
 class RegisterCubit extends Cubit<RegisterState> {
-  // Repository هو المسؤول عن تنفيذ عملية إنشاء الحساب.
+
   final AuthRepository authRepository;
 
   RegisterCubit(this.authRepository) : super(RegisterInitial());
 
+  // يبدأ حالة الانتظار ثم يرسل طلب إنشاء الحساب ويصدر حالة النجاح أو الخطأ.
   void register(RegisterRequestBody body) {
-    // أخبر الواجهة أن إنشاء الحساب بدأ حتى تعرض loading.
+
     emit(RegisterLoading());
 
-    // أرسل بيانات المستخدم الجديد إلى Repository.
     authRepository.register(body).then((result) {
-      // النتيجة إما خطأ أو نجاح.
+
       result.fold(
-        // في حالة الخطأ، أرسل الرسالة للواجهة.
+
         (errorHandler) => emit(RegisterError(errorHandler.message)),
-        // في حالة النجاح، أرسل response للواجهة.
+
         (registerResponse) => emit(RegisterSuccess(registerResponse)),
       );
     });

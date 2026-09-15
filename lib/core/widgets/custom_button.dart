@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_text_styles.dart';
 
+// زر قابل لإعادة الاستخدام مع نص وألوان وأبعاد يحددها المستدعي.
 class CustomButton extends StatelessWidget {
   final String text;
   final VoidCallback onTap;

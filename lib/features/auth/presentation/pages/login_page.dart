@@ -5,6 +5,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../widgets/login_card.dart';
 import '../widgets/login_header.dart';
 
+// واجهة الدخول البديلة المبنية من عنوان وبطاقة نموذج.
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
@@ -18,7 +19,7 @@ class LoginPage extends StatelessWidget {
           child: SingleChildScrollView(
             child: Center(
               child: SizedBox(
-                // Same width as the Figma frame.
+
                 width: 360.w,
 
                 child: Column(
@@ -26,13 +27,13 @@ class LoginPage extends StatelessWidget {
                     const LoginHeader(),
                     LoginCard(
                       onForgotPassword: () {
-                        // TODO: Go to forgot password page.
+                        // هذا الزر غير مربوط بالتنقل في الواجهة البديلة حاليًا.
                       },
                       onCreateAccount: () {
-                        // TODO: Go to register page.
+                        // فتح التسجيل غير موصول في هذه الواجهة البديلة.
                       },
                       onAdminLogin: () {
-                        // TODO: Admin login.
+                        // دخول المسؤول غير منفّذ في هذه الواجهة.
                       },
                     ),
                     SizedBox(height: 20.h),

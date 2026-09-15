@@ -6,19 +6,20 @@ import '../../../domain/repositories/auth_repository.dart';
 
 part 'reset_password_state.dart';
 
+// يدير طلب تعيين كلمة المرور وينقل الواجهة بين الانتظار والنجاح والخطأ.
 class ResetPasswordCubit extends Cubit<ResetPasswordState> {
-  // هذا Cubit مسؤول فقط عن function تغيير كلمة المرور.
+
   final AuthRepository authRepository;
 
   ResetPasswordCubit(this.authRepository) : super(ResetPasswordInitial());
 
+  // يبدأ حالة الانتظار ثم يرسل طلب تعيين كلمة المرور ويصدر حالة النجاح أو الخطأ.
   void resetPassword(ResetPasswordRequestBody body) {
-    // أخبر الواجهة أن طلب تغيير كلمة المرور بدأ.
+
     emit(ResetPasswordLoading());
 
-    // body يحتوي email وكلمة المرور الجديدة.
     authRepository.resetPassword(body).then((result) {
-      // النتيجة إما رسالة خطأ أو نجاح تغيير كلمة المرور.
+
       result.fold(
         (errorHandler) => emit(ResetPasswordError(errorHandler.message)),
         (resetPasswordResponse) =>

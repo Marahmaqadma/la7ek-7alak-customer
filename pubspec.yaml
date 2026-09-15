@@ -41,6 +41,10 @@ dependencies:
   dartz: ^0.10.1
   json_annotation: ^4.9.0
   flutter_secure_storage: ^9.2.4
+  image_picker: ^1.1.2
+  firebase_core: ^4.15.0
+  firebase_auth: ^6.7.0
+  cloud_firestore: ^6.10.0
 
 dev_dependencies:
   flutter_test:
@@ -79,5 +83,7 @@ flutter:
     - family: Tajawal
       fonts:
         - asset: assets/fonts/Tajawal-Regular.ttf
+        - asset: assets/fonts/Tajawal-Medium.ttf
+          weight: 500
         - asset: assets/fonts/Tajawal-Bold.ttf
           weight: 700
