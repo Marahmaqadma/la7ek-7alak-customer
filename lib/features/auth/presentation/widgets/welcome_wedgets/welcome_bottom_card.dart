@@ -35,7 +35,7 @@ class WelcomeBottomCard extends StatelessWidget {
             style: TextStyle(
               fontSize: 20.sp,
               fontWeight: FontWeight.bold,
-              color: AppColors.primaryNavy,
+              color: AppColors.introNavy,
             ),
           ),
           SizedBox(height: 8.h),
@@ -55,7 +55,7 @@ class WelcomeBottomCard extends StatelessWidget {
             child: ElevatedButton(
               onPressed: onLoginPressed,
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primaryNavy,
+                backgroundColor: AppColors.introNavy,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.r),
                 ),

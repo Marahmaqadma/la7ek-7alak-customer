@@ -50,7 +50,7 @@ class RegisterFooterWidget extends StatelessWidget {
           'هل لديك حساب بالفعل؟ ',
           style: TextStyle(
             fontSize: 13.sp,
-            color: AppColors.introNavy.withValues(alpha: 0.8),
+            color: AppColors.introNavy.withOpacity(0.8),
           ),
         ),
         GestureDetector(
