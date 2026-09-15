@@ -12,29 +12,29 @@ import '../models/verify_otp/verify_otp_response.dart';
 import '../models/reset_password/reset_password_request_body.dart';
 import '../models/reset_password/reset_password_response.dart';
 
-// ==========================================
-// 1. العقد (Interface) الذي يحدد الفانكشنز المطلوبة
-// ==========================================
+// يحدد عمليات المصادقة المطلوبة من أي مصدر بيانات خارجي.
 abstract class AuthRemoteDataSource {
-  // هذا interface يحدد كل API function نحتاجها في auth.
-  // أي class يطبق هذا interface لازم يكتب نفس هذه الدوال.
+
+  // عقد عملية تسجيل الدخول؛ يحدد المدخلات ونوع النتيجة دون تنفيذ الاتصال هنا.
   Future<LoginResponse> login(LoginRequestBody body);
+  // عقد عملية إنشاء الحساب؛ يحدد المدخلات ونوع النتيجة دون تنفيذ الاتصال هنا.
   Future<RegisterResponse> register(RegisterRequestBody body);
+  // عقد عملية استعادة كلمة المرور؛ يحدد المدخلات ونوع النتيجة دون تنفيذ الاتصال هنا.
   Future<ForgotPasswordResponse> forgotPassword(ForgotPasswordRequestBody body);
+  // عقد عملية التحقق من الرمز؛ يحدد المدخلات ونوع النتيجة دون تنفيذ الاتصال هنا.
   Future<VerifyOtpResponse> verifyOtp(VerifyOtpRequestBody body);
+  // عقد عملية تعيين كلمة المرور؛ يحدد المدخلات ونوع النتيجة دون تنفيذ الاتصال هنا.
   Future<ResetPasswordResponse> resetPassword(ResetPasswordRequestBody body);
 }
 
-// ==========================================
-// 2. التطبيق الفعلي للـ API باستخدام مكتبة Dio
-// ==========================================
+// ينفّذ مسارات المصادقة عبر Dio؛ إعداد التطبيق الحالي يستخدم مصدر Firebase.
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
-  // dio هو المسؤول عن إرسال requests للسيرفر.
+
   final Dio dio;
 
   AuthRemoteDataSourceImpl(this.dio);
 
-  // يرسل email/password إلى endpoint login ويرجع LoginResponse من السيرفر.
+  // يرسل طلب تسجيل الدخول عبر HTTP ويحوّل رد JSON إلى النموذج المناسب.
   @override
   Future<LoginResponse> login(LoginRequestBody body) async {
     final response = await dio.post(
@@ -44,7 +44,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     return LoginResponse.fromJson(response.data);
   }
 
-  // يرسل بيانات إنشاء الحساب إلى endpoint register ويرجع رسالة/بيانات النجاح.
+  // يرسل طلب إنشاء الحساب عبر HTTP ويحوّل رد JSON إلى النموذج المناسب.
   @override
   Future<RegisterResponse> register(RegisterRequestBody body) async {
     final response = await dio.post(
@@ -54,13 +54,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     return RegisterResponse.fromJson(response.data);
   }
 
+  // يرسل طلب استعادة كلمة المرور عبر HTTP ويحوّل رد JSON إلى النموذج المناسب.
   @override
   Future<ForgotPasswordResponse> forgotPassword(
     ForgotPasswordRequestBody body,
   ) async {
     try {
-      // يرسل email فقط للسيرفر حتى السيرفر يولد OTP ويرسله بالبريد.
-      // هذه logs مؤقتة ومحدودة لهذا الطلب حتى نعرف ماذا يرجع السيرفر أثناء التجربة.
+
       debugPrint('[forgot-password] sending request');
       final response = await dio.post(
         ApiConstants.forgotPassword,
@@ -70,7 +70,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       debugPrint('[forgot-password] response: ${response.data}');
       return ForgotPasswordResponse.fromJson(response.data);
     } on DioException catch (error) {
-      // إذا فشل الطلب، اطبع نوع الخطأ والرد بدون طباعة الإيميل أو بيانات حساسة.
+
       debugPrint('[forgot-password] dio error type: ${error.type}');
       debugPrint('[forgot-password] status: ${error.response?.statusCode}');
       debugPrint('[forgot-password] response: ${error.response?.data}');
@@ -78,7 +78,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     }
   }
 
-  // يرسل email مع OTP المكون من 6 أرقام حتى السيرفر يتأكد أن الرمز صحيح.
+  // يرسل طلب التحقق من الرمز عبر HTTP ويحوّل رد JSON إلى النموذج المناسب.
   @override
   Future<VerifyOtpResponse> verifyOtp(VerifyOtpRequestBody body) async {
     final response = await dio.post(
@@ -88,11 +88,12 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     return VerifyOtpResponse.fromJson(response.data);
   }
 
+  // يرسل طلب تعيين كلمة المرور عبر HTTP ويحوّل رد JSON إلى النموذج المناسب.
   @override
   Future<ResetPasswordResponse> resetPassword(
     ResetPasswordRequestBody body,
   ) async {
-    // بعد نجاح OTP، هذه الدالة ترسل email وكلمة المرور الجديدة للسيرفر.
+
     final response = await dio.post(
       ApiConstants.resetPassword,
       data: body.toJson(),

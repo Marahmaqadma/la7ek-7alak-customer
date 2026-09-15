@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 
+// يرتب خانات الرمز ويربط كل خانة بمتحكمها ومؤشر التركيز.
 class OtpCodeFields extends StatelessWidget {
   final List<TextEditingController> controllers;
   final List<FocusNode> focusNodes;
@@ -64,6 +65,7 @@ class OtpCodeFields extends StatelessWidget {
   }
 }
 
+// خانة لرقم واحد من الرمز مع تنسيق موحد والتحقق من الإدخال.
 class _OtpField extends StatelessWidget {
   final TextEditingController controller;
   final FocusNode focusNode;

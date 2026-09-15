@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'login_response.g.dart';
 
+// نتيجة تسجيل الدخول القادمة من مصدر المصادقة.
 @JsonSerializable(createToJson: false)
 @JsonSerializable()
 class LoginResponse {
@@ -15,13 +16,16 @@ class LoginResponse {
     required this.user,
   });
 
+  // يبني النموذج من بيانات JSON القادمة من الخدمة.
   factory LoginResponse.fromJson(Map<String, dynamic> json) =>
       _$LoginResponseFromJson(json);
 }
 
+// معرّف المستخدم النصي واسمه وبريده ودوره كما تعيدها خدمة المصادقة.
 @JsonSerializable(createToJson: false)
 class UserData {
-  final int id;
+
+  final String id;
   @JsonKey(name: 'fullName')
   final String fullName;
   final String email;
@@ -34,6 +38,7 @@ class UserData {
     required this.role,
   });
 
+  // يبني النموذج من بيانات JSON القادمة من الخدمة.
   factory UserData.fromJson(Map<String, dynamic> json) =>
       _$UserDataFromJson(json);
 }

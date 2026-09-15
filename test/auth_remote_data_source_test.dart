@@ -46,13 +46,13 @@ void main() {
       token: '12345',
       message: 'Success',
       user: login_model.UserData(
-          id: 2, email: 'admin@gmail.com', role: 'admin', fullName: 'admin'),
+          id: '2', email: 'admin@gmail.com', role: 'admin', fullName: 'admin'),
     );
 
     final tRegisterResponse = register_model.RegisterResponse(
       message: 'Registered Successfully',
       user: register_model.UserData(
-        id: 1,
+        id: '1',
         email: 'alaaa@gmail.com',
         role: 'customer',
         fullName: 'Alaa',

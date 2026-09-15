@@ -14,7 +14,7 @@ LoginResponse _$LoginResponseFromJson(Map<String, dynamic> json) =>
     );
 
 UserData _$UserDataFromJson(Map<String, dynamic> json) => UserData(
-      id: (json['id'] as num).toInt(),
+      id: json['id'] as String,
       fullName: json['fullName'] as String,
       email: json['email'] as String,
       role: json['role'] as String,

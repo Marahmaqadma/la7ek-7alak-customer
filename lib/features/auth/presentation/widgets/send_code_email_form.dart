@@ -6,6 +6,7 @@ import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/custom_button.dart';
 import '../../../../core/widgets/custom_text_field.dart';
 
+// نموذج البريد المستخدم في واجهة إرسال رمز التحقق.
 class SendCodeEmailForm extends StatelessWidget {
   final TextEditingController controller;
   final VoidCallback onSendCode;

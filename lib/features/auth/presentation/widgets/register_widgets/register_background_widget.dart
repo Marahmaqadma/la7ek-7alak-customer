@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+// دوائر خلفية زخرفية لشاشة التسجيل.
 class RegisterBackgroundWidget extends StatelessWidget {
   const RegisterBackgroundWidget({super.key});
 
@@ -8,7 +9,7 @@ class RegisterBackgroundWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        // الدائرة العلوية اليسرى (بحجم مطابق لـ Figma تقريباً 70x70)
+
         Positioned(
           top: -20.h,
           left: -20.w,
@@ -21,7 +22,7 @@ class RegisterBackgroundWidget extends StatelessWidget {
             ),
           ),
         ),
-        // الدائرة اليمنى بالأسفل قليلاً
+
         Positioned(
           top: 170.h,
           right: -30.w,

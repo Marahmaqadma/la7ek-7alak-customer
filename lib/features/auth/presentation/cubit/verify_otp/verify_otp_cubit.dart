@@ -6,19 +6,20 @@ import '../../../domain/repositories/auth_repository.dart';
 
 part 'verify_otp_state.dart';
 
+// يدير طلب التحقق من الرمز وينقل الواجهة بين الانتظار والنجاح والخطأ.
 class VerifyOtpCubit extends Cubit<VerifyOtpState> {
-  // هذا Cubit مسؤول فقط عن function التحقق من OTP.
+
   final AuthRepository authRepository;
 
   VerifyOtpCubit(this.authRepository) : super(VerifyOtpInitial());
 
+  // يبدأ حالة الانتظار ثم يرسل طلب التحقق من الرمز ويصدر حالة النجاح أو الخطأ.
   void verifyOtp(VerifyOtpRequestBody body) {
-    // أرسل Loading حتى تعرف الواجهة أن التحقق بدأ.
+
     emit(VerifyOtpLoading());
 
-    // body يحتوي email و otp المكون من 6 أرقام.
     authRepository.verifyOtp(body).then((result) {
-      // إذا السيرفر رفض الرمز نرسل Error، وإذا قبله نرسل Success.
+
       result.fold(
         (errorHandler) => emit(VerifyOtpError(errorHandler.message)),
         (verifyOtpResponse) => emit(VerifyOtpSuccess(verifyOtpResponse)),

@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_text_styles.dart';
 
+// رابط نصي قابل للضغط بألوان وتنسيق تحددهما الشاشة.
 class AuthLinkText extends StatelessWidget {
-  // Normal part of the sentence.
+
   final String text;
 
-  // Clickable part.
   final String actionText;
 
-  // Action performed when the clickable text is pressed.
   final VoidCallback onTap;
 
   const AuthLinkText({
@@ -22,10 +21,9 @@ class AuthLinkText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      // Row uses only the space needed by the texts.
+
       mainAxisSize: MainAxisSize.min,
 
-      // Keeps Arabic text order correct.
       textDirection: TextDirection.rtl,
 
       children: [
@@ -34,7 +32,7 @@ class AuthLinkText extends StatelessWidget {
           style: AppTextStyles.secondaryText,
         ),
         GestureDetector(
-          // Only the action text is clickable.
+
           onTap: onTap,
 
           child: Text(

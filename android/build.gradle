@@ -21,6 +21,14 @@ subprojects {
 }
 subprojects {
     project.evaluationDependsOn(':app')
+    // The older splash plugin declares SDK 31, below its AndroidX dependencies.
+    if (project.name == 'flutter_native_splash') {
+        plugins.withId('com.android.library') {
+            androidComponents.finalizeDsl { androidDsl ->
+                androidDsl.compileSdk = rootProject.project(':app').android.compileSdk
+            }
+        }
+    }
 }
 
 tasks.register("clean", Delete) {

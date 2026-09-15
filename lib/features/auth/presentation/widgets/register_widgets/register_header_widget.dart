@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:la7ek_7alak/core/theme/app_colors.dart';
 
+// عنوان التسجيل ووصف قصير يوضح للمستخدم هدف الشاشة.
 class RegisterHeaderWidget extends StatelessWidget {
   const RegisterHeaderWidget({super.key});
 
@@ -15,7 +16,7 @@ class RegisterHeaderWidget extends StatelessWidget {
           style: TextStyle(
             fontSize: 20.sp,
             fontWeight: FontWeight.w800,
-            color: AppColors.primaryNavy,
+            color: AppColors.introNavy,
           ),
         ),
         SizedBox(height: 4.h),

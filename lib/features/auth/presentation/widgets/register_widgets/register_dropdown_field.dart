@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:la7ek_7alak/core/theme/app_colors.dart';
 import 'package:la7ek_7alak/core/utils/validators.dart';
 
+// يفتح قائمة المدن ويحفظ الاختيار داخل حالة حقل النموذج للتحقق منه.
 class RegisterDropdownField extends StatelessWidget {
   final String label;
   final String hint;
@@ -27,7 +28,7 @@ class RegisterDropdownField extends StatelessWidget {
           style: TextStyle(
             fontSize: 13.sp,
             fontWeight: FontWeight.bold,
-            color: AppColors.primaryNavy,
+            color: AppColors.introNavy,
           ),
         ),
         SizedBox(height: 6.h),
@@ -40,6 +41,7 @@ class RegisterDropdownField extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () {
+                    // فتح قائمة المدن دون مغادرة النموذج.
                     showModalBottomSheet(
                       context: context,
                       builder: (context) => Directionality(
@@ -57,14 +59,15 @@ class RegisterDropdownField extends StatelessWidget {
                           ]
                               .map(
                                 (city) => ListTile(
-                              title: Text(city),
-                              onTap: () {
-                                onCitySelected(city);
-                                field.didChange(city);
-                                Navigator.pop(context);
-                              },
-                            ),
-                          )
+                                  title: Text(city),
+                                  onTap: () {
+                                    onCitySelected(city);
+                                    // إبلاغ النموذج بالقيمة المختارة حتى ينجح التحقق من حقل المدينة.
+                                    field.didChange(city);
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              )
                               .toList(),
                         ),
                       ),
@@ -74,10 +77,12 @@ class RegisterDropdownField extends StatelessWidget {
                     height: 52.h,
                     padding: EdgeInsets.symmetric(horizontal: 16.w),
                     decoration: BoxDecoration(
-                      color: AppColors.fieldBackground,
+                      color: const Color(0xFFFCFDFF),
                       borderRadius: BorderRadius.circular(15.r),
                       border: Border.all(
-                        color: field.hasError ? AppColors.accentOrange : AppColors.fieldBorder,
+                        color: field.hasError
+                            ? const Color(0xFFEF6F0F)
+                            : AppColors.fieldBorder,
                       ),
                     ),
                     child: Row(
@@ -86,13 +91,15 @@ class RegisterDropdownField extends StatelessWidget {
                         Text(
                           selectedCity ?? hint,
                           style: TextStyle(
-                            color: selectedCity != null ? AppColors.primaryNavy : AppColors.mutedText,
+                            color: selectedCity != null
+                                ? AppColors.introNavy
+                                : const Color(0xFF9EA3B0),
                             fontSize: 13.sp,
                           ),
                         ),
                         Icon(
                           Icons.keyboard_arrow_down,
-                          color: AppColors.primaryNavy,
+                          color: AppColors.introNavy,
                           size: 24.sp,
                         ),
                       ],
@@ -105,7 +112,7 @@ class RegisterDropdownField extends StatelessWidget {
                     child: Text(
                       field.errorText!,
                       style: TextStyle(
-                        color: AppColors.accentOrange,
+                        color: const Color(0xFFEF6F0F),
                         fontSize: 10.sp,
                         fontWeight: FontWeight.w500,
                       ),

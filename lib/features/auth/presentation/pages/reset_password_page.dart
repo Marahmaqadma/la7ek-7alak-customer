@@ -6,6 +6,7 @@ import '../../../../core/utils/validators.dart';
 import '../../data/models/reset_password/reset_password_request_body.dart';
 import '../cubit/reset_password/reset_password_cubit.dart';
 
+// نموذج تعيين كلمة مرور لمسار الخدمة السابق؛ Firebase يستخدم رابط البريد.
 class ResetPasswordPage extends StatefulWidget {
   final String email;
 
@@ -18,6 +19,7 @@ class ResetPasswordPage extends StatefulWidget {
   State<ResetPasswordPage> createState() => _ResetPasswordPageState();
 }
 
+// يتحقق من كلمة المرور الجديدة وتأكيدها قبل طلب التغيير.
 class _ResetPasswordPageState extends State<ResetPasswordPage> {
   final _formKey = GlobalKey<FormState>();
   bool _obscureNewPassword = true;
@@ -27,6 +29,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   final TextEditingController _confirmPasswordController =
       TextEditingController();
 
+  // يراقب تغيّر الحقول لتحديث علامات الصحة وتطابق كلمة المرور مباشرة.
   @override
   void initState() {
     super.initState();
@@ -38,6 +41,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     });
   }
 
+  // يحرر متحكمات الحقول والموارد المستخدمة عند إغلاق الواجهة.
   @override
   void dispose() {
     _newPasswordController.dispose();
@@ -48,6 +52,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ResetPasswordCubit, ResetPasswordState>(
+      // يتابع نتيجة الطلب لإظهار رسالة للمستخدم أو الانتقال إلى الشاشة التالية.
       listener: (context, state) {
         if (state is ResetPasswordSuccess) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -76,7 +81,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                   child: Center(
                     child: Column(
                       children: [
-                        // Header Logo
+
                         Image.asset(
                           'assets/images/logo.png',
                           width: 108.w,
@@ -84,7 +89,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                           fit: BoxFit.contain,
                         ),
                         SizedBox(height: 16.h),
-                        // Title
+
                         Text(
                           "استعادة كلمة المرور",
                           style: TextStyle(
@@ -94,7 +99,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                           ),
                         ),
                         SizedBox(height: 4.h),
-                        // Subtitle
+
                         Text(
                           "",
                           style: TextStyle(
@@ -104,7 +109,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                           ),
                         ),
                         SizedBox(height: 30.h),
-                        // Main Card
+
                         Container(
                           width: 310.w,
                           padding: EdgeInsets.symmetric(
@@ -127,7 +132,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                // New Password Field
+
                                 _buildLabel("كلمة المرور الجديدة"),
                                 SizedBox(height: 8.h),
                                 _buildPasswordField(
@@ -142,7 +147,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                   },
                                 ),
                                 SizedBox(height: 20.h),
-                                // Confirm Password Field
+
                                 _buildLabel("تأكيد كلمة المرور الجديدة"),
                                 SizedBox(height: 8.h),
                                 _buildPasswordField(
@@ -161,7 +166,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                   },
                                 ),
                                 SizedBox(height: 20.h),
-                                // Validation Hints
+
                                 _buildValidationItem(
                                   "يجب أن تحتوي كلمة المرور على 8 خانات (حروف , أرقام , رموز).",
                                   isValid:
@@ -177,7 +182,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                 ),
 
                                 SizedBox(height: 30.h),
-                                // Submit Button
+
                                 if (state is ResetPasswordLoading)
                                   const Center(
                                     child: CircularProgressIndicator(),
@@ -187,6 +192,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                     width: 270.w,
                                     height: 42.h,
                                     child: ElevatedButton(
+                                      // لا يرسل الطلب إلا بعد اجتياز الحقول لقواعد التحقق.
                                       onPressed: () {
                                         if (_formKey.currentState!.validate()) {
                                           context
@@ -237,6 +243,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     );
   }
 
+  // ينشئ عنوانًا موحد التنسيق فوق حقل الإدخال.
   Widget _buildLabel(String text) {
     return Text(
       text,
@@ -248,6 +255,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     );
   }
 
+  // ينشئ حقل كلمة مرور مع التحكم بإظهارها وإخفائها.
   Widget _buildPasswordField({
     required TextEditingController controller,
     required bool obscureText,
@@ -306,15 +314,16 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     );
   }
 
+  // يعرض شرط التحقق ويغيّر علامة الصحة حسب النتيجة.
   Widget _buildValidationItem(String text, {bool isValid = false}) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Icon(
-          // تبديل شكل الأيقونة فقط: مربع محدد عند الصحة، ومربع فارغ عند الخطأ
+
           isValid ? Icons.check_box : Icons.check_box_outline_blank,
           size: 16.sp,
-          color: const Color(0xFFC05A34), // اللون ثابت دائماً
+          color: const Color(0xFFC05A34),
         ),
         SizedBox(width: 8.w),
         Expanded(
@@ -322,7 +331,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
             text,
             style: TextStyle(
               fontSize: 10.sp,
-              color: const Color(0xFFC05A34), // اللون ثابت دائماً
+              color: const Color(0xFFC05A34),
               fontWeight: FontWeight.w300,
             ),
           ),

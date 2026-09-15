@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/routing/app_router.dart';
+import '../../../../core/services/storage_service.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/utils/validators.dart';
@@ -13,6 +14,7 @@ import '../cubit/login/login_cubit.dart';
 import 'auth_link_text.dart';
 import 'login_type_card.dart';
 
+// بطاقة الدخول البديلة التي تجمع اختيار الدور وحقول الحساب.
 class LoginCard extends StatefulWidget {
   final VoidCallback onForgotPassword;
   final VoidCallback onCreateAccount;
@@ -29,6 +31,7 @@ class LoginCard extends StatefulWidget {
   State<LoginCard> createState() => _LoginCardState();
 }
 
+// يدير إدخال بيانات الدخول وحالة إخفاء كلمة المرور في البطاقة.
 class _LoginCardState extends State<LoginCard> {
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
@@ -37,6 +40,7 @@ class _LoginCardState extends State<LoginCard> {
   LoginType selectedType = LoginType.consumer;
   bool _isPasswordObscured = true;
 
+  // يحرر متحكمات الحقول والموارد المستخدمة عند إغلاق الواجهة.
   @override
   void dispose() {
     emailController.dispose();
@@ -47,11 +51,9 @@ class _LoginCardState extends State<LoginCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // Figma width.
+
       width: 310.w,
 
-      // Minimum Figma height.
-      // We do NOT force the height because that caused your overflow.
       constraints: BoxConstraints(minHeight: 530.h),
 
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
@@ -62,11 +64,21 @@ class _LoginCardState extends State<LoginCard> {
       ),
 
       child: BlocConsumer<LoginCubit, LoginState>(
-        listener: (context, state) {
+        // يتابع نتيجة الطلب لإظهار رسالة للمستخدم أو الانتقال إلى الشاشة التالية.
+        listener: (context, state) async {
           if (state is LoginSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.loginResponse.message)),
             );
+            if (selectedType == LoginType.consumer) {
+              await const StorageService()
+                  .saveUserFullName(state.loginResponse.user.fullName);
+              if (!context.mounted) return;
+
+              Navigator.pushReplacementNamed(context, AppRouter.home);
+            } else {
+              Navigator.pushReplacementNamed(context, AppRouter.sellerHome);
+            }
           } else if (state is LoginError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.error)),
@@ -79,7 +91,7 @@ class _LoginCardState extends State<LoginCard> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // ---------------- TITLE ----------------
+
                 Text('تسجيل الدخول', style: AppTextStyles.screenTitle),
 
                 SizedBox(height: 4.h),
@@ -88,7 +100,6 @@ class _LoginCardState extends State<LoginCard> {
 
                 SizedBox(height: 18.h),
 
-                // ---------------- EMAIL ----------------
                 Text('البريد الإلكتروني', style: AppTextStyles.fieldLabel),
 
                 SizedBox(height: 5.h),
@@ -104,7 +115,6 @@ class _LoginCardState extends State<LoginCard> {
 
                 SizedBox(height: 12.h),
 
-                // ---------------- PASSWORD ----------------
                 Text('كلمة المرور', style: AppTextStyles.fieldLabel),
 
                 SizedBox(height: 5.h),
@@ -132,18 +142,23 @@ class _LoginCardState extends State<LoginCard> {
 
                 SizedBox(height: 8.h),
 
-                // ---------------- LOGIN BUTTON ----------------
                 Center(
                   child: state is LoginLoading
                       ? const CircularProgressIndicator()
                       : CustomButton.dark(
-                          text: 'تسجيل الدخول',
+                          text: selectedType == LoginType.consumer
+                              ? 'تسجيل الدخول'
+                              : 'تسجيل الدخول كتاجر',
+                          // لا يرسل الطلب إلا بعد اجتياز الحقول لقواعد التحقق.
                           onTap: () {
                             if (_formKey.currentState!.validate()) {
                               context.read<LoginCubit>().login(
                                     LoginRequestBody(
                                       email: emailController.text.trim(),
                                       password: passwordController.text.trim(),
+                                      role: selectedType == LoginType.consumer
+                                          ? 'consumer'
+                                          : 'merchant',
                                     ),
                                   );
                             }
@@ -153,7 +168,6 @@ class _LoginCardState extends State<LoginCard> {
 
                 SizedBox(height: 8.h),
 
-                // ---------------- FORGOT PASSWORD ----------------
                 Align(
                   alignment: Alignment.centerLeft,
                   child: GestureDetector(
@@ -168,7 +182,6 @@ class _LoginCardState extends State<LoginCard> {
 
                 SizedBox(height: 26.h),
 
-                // ---------------- LOGIN TYPE TITLE ----------------
                 Row(
                   children: [
                     const Expanded(
@@ -186,10 +199,8 @@ class _LoginCardState extends State<LoginCard> {
 
                 SizedBox(height: 15.h),
 
-                // ---------------- CONSUMER / MERCHANT ----------------
                 Row(
-                  // Figma has Consumer on the left
-                  // and Merchant on the right.
+
                   textDirection: TextDirection.ltr,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -213,6 +224,13 @@ class _LoginCardState extends State<LoginCard> {
                         setState(() {
                           selectedType = LoginType.merchant;
                         });
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              'تم اختيار الدخول كتاجر، اضغط تسجيل الدخول للمتابعة',
+                            ),
+                          ),
+                        );
                       },
                     ),
                   ],
@@ -220,7 +238,6 @@ class _LoginCardState extends State<LoginCard> {
 
                 SizedBox(height: 18.h),
 
-                // ---------------- CREATE ACCOUNT ----------------
                 Center(
                   child: AuthLinkText(
                     text: 'ليس لديك حساب؟ ',
@@ -233,9 +250,9 @@ class _LoginCardState extends State<LoginCard> {
 
                 SizedBox(height: 20.h),
 
-                // ---------------- ADMIN ----------------
                 Center(
                   child: GestureDetector(
+                    // لا يرسل الطلب إلا بعد اجتياز الحقول لقواعد التحقق.
                     onTap: () {
                       if (_formKey.currentState!.validate()) {
                         widget.onAdminLogin();

@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
-//importing the  screenutil package
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:la7ek_7alak/features/auth/presentation/pages/register_page.dart';
-import 'package:la7ek_7alak/features/auth/presentation/pages/send_verification_code_page.dart';
-import 'package:la7ek_7alak/features/auth/presentation/pages/store_profile_page.dart';
-import 'features/auth/presentation/pages/followed_stores_page.dart';
-import 'core/routing/app_router.dart';
-import 'firebase_initializer.dart';
-import 'features/auth/presentation/pages/welcome_page.dart';
-import 'package:la7ek_7alak/features/auth/presentation/pages/splash_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-/*void main() {
-  runApp(La7ek7alakApp(appRouter: AppRouter()));
-}*/
-void main() async {
-  await FirebaseInitializer.init();
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'core/routing/app_router.dart';
+
+  // يهيّئ Flutter وFirebase قبل تشغيل واجهة التطبيق.
+  Future<void> main() async {
+    WidgetsFlutterBinding.ensureInitialized();
+
+    // تهيئة خدمات Firebase قبل إنشاء المسارات التي تعتمد على المصادقة.
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
   runApp(La7ek7alakApp(appRouter: AppRouter()));
 }
 
+// يضبط الخط وأبعاد التصميم والمسارات، ويبدأ بشاشة الترحيب.
 class La7ek7alakApp extends StatelessWidget {
   final AppRouter appRouter;
 
@@ -28,6 +28,7 @@ class La7ek7alakApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // اعتماد أبعاد التصميم المرجعية لتكييف عناصر الواجهة مع حجم الجهاز.
     return ScreenUtilInit(
       designSize: const Size(360, 780),
       minTextAdapt: true,
@@ -36,9 +37,8 @@ class La7ek7alakApp extends StatelessWidget {
         return MaterialApp(
           theme: ThemeData(fontFamily: 'Tajawal'),
           debugShowCheckedModeBanner: false,
-            home: const SplashScreen()
-          //initialRoute: AppRouter.register,
-          //onGenerateRoute: appRouter.onGenerateRoute,
+          initialRoute: AppRouter.intro,
+          onGenerateRoute: appRouter.onGenerateRoute,
         );
       },
     );

@@ -3,15 +3,16 @@ import 'package:dio/dio.dart';
 import '../constants/api_constants.dart';
 import '../services/storage_service.dart';
 
+// يجهّز اتصال HTTP ويضيف رمز الدخول إلى الطلبات المحمية.
 class DioFactory {
-  // نحتاج StorageService هنا حتى نقدر نقرأ التوكن المحفوظ ونرسله مع الطلبات المحمية.
+
   final StorageService storageService;
 
   DioFactory(this.storageService);
 
+  // يضبط عنوان الخدمة والمهل والرؤوس، ويضيف رمز الدخول للطلبات غير العامة.
   Dio createDio() {
-    // هذا هو كائن Dio الأساسي الذي سيستخدمه التطبيق لكل طلبات الـ API.
-    // baseUrl يعني أننا نكتب endpoint فقط مثل login بدل الرابط الكامل كل مرة.
+
     final dio = Dio(
       BaseOptions(
         baseUrl: ApiConstants.baseUrl,
@@ -25,12 +26,12 @@ class DioFactory {
       ),
     );
 
-    // Interceptor يعمل قبل كل request.
-    // وظيفته: يضيف التوكن تلقائيا للطلبات التي تحتاج تسجيل دخول.
     dio.interceptors.add(
       InterceptorsWrapper(
+        // يمرر طلبات المصادقة العامة مباشرة ويضيف رمز الدخول لبقية الطلبات.
         onRequest: (options, handler) async {
-          // هذه endpoints عامة ولا تحتاج token، لذلك نتركها تذهب مباشرة للسيرفر.
+
+          // هذه المسارات لا تحتاج رمز دخول لأن المستخدم قد لا يكون مسجلًا بعد.
           final authPaths = {
             ApiConstants.login,
             ApiConstants.register,
@@ -44,10 +45,9 @@ class DioFactory {
             return;
           }
 
-          // للطلبات الأخرى: اقرأ التوكن من التخزين الآمن.
+          // قراءة الرمز عند كل طلب حتى تُستخدم أحدث قيمة محفوظة.
           final token = await storageService.getToken();
 
-          // إذا يوجد token، أرسله في الهيدر حتى يعرف السيرفر المستخدم الحالي.
           if (token != null && token.isNotEmpty) {
             options.headers['Authorization'] = 'Bearer $token';
           }

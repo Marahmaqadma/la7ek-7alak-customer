@@ -4,11 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 
+// أنواع الحسابات المتاحة لتحديد تجربة الدخول.
 enum LoginType {
   consumer,
   merchant,
 }
 
+// بطاقة لاختيار دور الدخول؛ تبرز الدور المحدد وتستدعي إجراء الاختيار.
 class LoginTypeCard extends StatelessWidget {
   final String title;
   final String subtitle;
@@ -33,11 +35,10 @@ class LoginTypeCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        // Exact Figma size.
+
         width: 129.w,
         height: 91.h,
 
-        // No horizontal padding so the text gets enough width.
         padding: EdgeInsets.symmetric(
           vertical: 5.h,
         ),
@@ -64,8 +65,6 @@ class LoginTypeCard extends StatelessWidget {
 
             SizedBox(height: 3.h),
 
-            // FittedBox only shrinks the text if the device
-            // doesn't have enough width.
             SizedBox(
               width: 121.w,
               child: FittedBox(

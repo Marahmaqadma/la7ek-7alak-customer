@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:la7ek_7alak/core/theme/app_colors.dart';
 import 'package:la7ek_7alak/core/routing/app_router.dart';
 
+// زر يطلب إنشاء الحساب بعد تحقق النموذج من الحقول.
 class RegisterSubmitButton extends StatelessWidget {
   final VoidCallback onPressed;
 
@@ -16,7 +17,7 @@ class RegisterSubmitButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primaryNavy,
+          backgroundColor: AppColors.introNavy,
           foregroundColor: AppColors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15.r),
@@ -35,6 +36,7 @@ class RegisterSubmitButton extends StatelessWidget {
   }
 }
 
+// رابط يعيد المستخدم الذي لديه حساب إلى شاشة الدخول.
 class RegisterFooterWidget extends StatelessWidget {
   const RegisterFooterWidget({super.key});
 
@@ -48,7 +50,7 @@ class RegisterFooterWidget extends StatelessWidget {
           'هل لديك حساب بالفعل؟ ',
           style: TextStyle(
             fontSize: 13.sp,
-            color: AppColors.primaryNavy.withOpacity(0.8),
+            color: AppColors.introNavy.withValues(alpha: 0.8),
           ),
         ),
         GestureDetector(
@@ -59,7 +61,7 @@ class RegisterFooterWidget extends StatelessWidget {
             'تسجيل الدخول',
             style: TextStyle(
               fontSize: 13.sp,
-              color: AppColors.primaryOrange,
+              color: const Color(0xFFF58B1F),
               fontWeight: FontWeight.bold,
             ),
           ),

@@ -1,9 +1,11 @@
+// نتيجة إنشاء الحساب القادمة من مصدر المصادقة.
 class RegisterResponse {
   final String message;
   final UserData user;
 
   RegisterResponse({required this.message, required this.user});
 
+  // يبني النموذج من بيانات JSON القادمة من الخدمة.
   factory RegisterResponse.fromJson(Map<String, dynamic> json) =>
       RegisterResponse(
         message: json['message'],
@@ -11,8 +13,10 @@ class RegisterResponse {
       );
 }
 
+// معرّف المستخدم النصي واسمه وبريده ودوره كما تعيدها خدمة المصادقة.
 class UserData {
-  final int id;
+
+  final String id;
   final String fullName;
   final String email;
   final String role;
@@ -24,6 +28,7 @@ class UserData {
     required this.role,
   });
 
+  // يبني النموذج من بيانات JSON القادمة من الخدمة.
   factory UserData.fromJson(Map<String, dynamic> json) => UserData(
         id: json['id'],
         fullName: json['fullName'],

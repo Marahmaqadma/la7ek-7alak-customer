@@ -5,6 +5,7 @@ import 'register_input_field.dart';
 import 'register_dropdown_field.dart';
 import 'register_actions_widget.dart';
 
+// يجمع بيانات الحساب وتأكيد كلمة المرور والمدينة وزر التسجيل.
 class RegisterFormWidget extends StatelessWidget {
   final GlobalKey<FormState> formKey;
   final TextEditingController fullNameController;
@@ -23,6 +24,7 @@ class RegisterFormWidget extends StatelessWidget {
   final VoidCallback onEyeTapPassword;
   final VoidCallback onEyeTapConfirmPassword;
   final VoidCallback onSubmit;
+  final bool isLoading;
 
   const RegisterFormWidget({
     super.key,
@@ -43,6 +45,7 @@ class RegisterFormWidget extends StatelessWidget {
     required this.onEyeTapPassword,
     required this.onEyeTapConfirmPassword,
     required this.onSubmit,
+    this.isLoading = false,
   });
 
   @override
@@ -62,6 +65,7 @@ class RegisterFormWidget extends StatelessWidget {
         child: Column(
           children: [
             RegisterInputField(
+              // بيانات تعريف الحساب التي سيرسلها النموذج إلى خدمة التسجيل.
               label: 'الاسم',
               hint: 'ayazanean',
               controller: fullNameController,
@@ -88,8 +92,10 @@ class RegisterFormWidget extends StatelessWidget {
               showCheck: true,
               isChecked: phoneValid,
               keyboardType: TextInputType.phone,
-              textDirection: TextDirection.ltr, // لضمان كتابة الأرقام من اليمين لليسار أو العكس بشكل طبيعي
-              textAlign: TextAlign.right, // محاذاة النص والهينت للجهة اليسرى داخل الحقل الرقمي
+              textDirection: TextDirection
+                  .ltr,
+              textAlign: TextAlign
+                  .right,
             ),
             SizedBox(height: 12.h),
             RegisterInputField(
@@ -97,25 +103,29 @@ class RegisterFormWidget extends StatelessWidget {
               hint: '************',
               controller: passwordController,
               validator: Validators.password,
-              helperText: 'يجب أن تحتوي كلمة المرور على 8 خانات (حروف ، أرقام).',
-              showCheck: true, // تفعيل علامة الصح
-              isChecked: passwordValid, // ربطها بمتغير الفحص
+              helperText:
+                  'يجب أن تحتوي كلمة المرور على 8 خانات (حروف ، أرقام).',
+              showCheck: true,
+              isChecked: passwordValid,
               isPassword: isPasswordObscured,
               onEyeTap: onEyeTapPassword,
             ),
             SizedBox(height: 12.h),
             RegisterInputField(
+              // التأكيد للتحقق داخل الواجهة فقط؛ لا يُرسل كحقل مستقل إلى الخدمة.
               label: 'تأكيد كلمة المرور',
               hint: '************',
               controller: confirmPasswordController,
-              validator: (value) => Validators.confirmPassword(value, passwordController.text),
+              validator: (value) =>
+                  Validators.confirmPassword(value, passwordController.text),
               helperText: 'يجب أن تتطابق كلمة المرور.',
-              showCheck: true, // تفعيل علامة الصح للتطابق
-              isChecked: confirmPasswordValid, // ربطها بمتغير التطابق
+              showCheck: true,
+              isChecked: confirmPasswordValid,
               isPassword: isConfirmPasswordObscured,
               onEyeTap: onEyeTapConfirmPassword,
             ),
             SizedBox(height: 12.h),
+            // اختيار المدينة مطلوب قبل السماح بتسجيل الحساب.
             RegisterDropdownField(
               label: 'المدينة',
               hint: 'اختر مدينتك',
@@ -123,7 +133,11 @@ class RegisterFormWidget extends StatelessWidget {
               onCitySelected: onCitySelected,
             ),
             SizedBox(height: 30.h),
-            RegisterSubmitButton(onPressed: onSubmit),
+            // استبدال زر الإرسال بمؤشر تحميل أثناء انتظار الطلب.
+            if (isLoading)
+              const Center(child: CircularProgressIndicator())
+            else
+              RegisterSubmitButton(onPressed: onSubmit),
             SizedBox(height: 20.h),
             const RegisterFooterWidget(),
           ],
