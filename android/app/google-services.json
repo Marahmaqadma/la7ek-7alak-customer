@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "1025750184803",
+    "firebase_url": "https://la7eq-7alaq-default-rtdb.firebaseio.com",
+    "project_id": "la7eq-7alaq",
+    "storage_bucket": "la7eq-7alaq.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1025750184803:android:4cf8f76f9725e63212d956",
+        "android_client_info": {
+          "package_name": "com.example.la7ek_7alak"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7uo8dcbOQAd6eaLO-F03SjB7LqbBuJfg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

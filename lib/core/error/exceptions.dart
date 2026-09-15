@@ -1,11 +1,5 @@
+// استثناء يحمل رسالة الخطأ القادمة من الخادم.
 class ServerException implements Exception {
   final String message;
-
-  const ServerException([this.message = 'Server error']);
-}
-
-class CacheException implements Exception {
-  final String message;
-
-  const CacheException([this.message = 'Cache error']);
+  ServerException(this.message);
 }

@@ -1,42 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:la7ek_7alak/core/routing/app_router.dart';
-import 'package:la7ek_7alak/core/theme/app_theme.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
-  runApp(const La7ek7alakApp());
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'core/routing/app_router.dart';
+
+  // يهيّئ Flutter وFirebase قبل تشغيل واجهة التطبيق.
+  Future<void> main() async {
+    WidgetsFlutterBinding.ensureInitialized();
+
+    // تهيئة خدمات Firebase قبل إنشاء المسارات التي تعتمد على المصادقة.
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  runApp(La7ek7alakApp(appRouter: AppRouter()));
 }
 
+// يضبط الخط وأبعاد التصميم والمسارات، ويبدأ بشاشة الترحيب.
 class La7ek7alakApp extends StatelessWidget {
-  const La7ek7alakApp({super.key});
+  final AppRouter appRouter;
+
+  const La7ek7alakApp({
+    super.key,
+    required this.appRouter,
+  });
 
   @override
   Widget build(BuildContext context) {
+    // اعتماد أبعاد التصميم المرجعية لتكييف عناصر الواجهة مع حجم الجهاز.
     return ScreenUtilInit(
-      // Our Figma frame size.
       designSize: const Size(360, 780),
       minTextAdapt: true,
       splitScreenMode: true,
-
       builder: (context, child) {
         return MaterialApp(
           theme: ThemeData(fontFamily: 'Tajawal'),
           debugShowCheckedModeBanner: false,
-          theme: AppTheme.lightTheme,
-
-          initialRoute: AppRouter.sendVerificationCode,
-          onGenerateRoute: AppRouter.onGenerateRoute,
-
-          // Prevents the phone's large system font setting
-          // from destroying the Figma proportions.
-          builder: (context, child) {
-            return MediaQuery(
-              data: MediaQuery.of(context).copyWith(
-                textScaler: const TextScaler.linear(1.0),
-              ),
-              child: child!,
-            );
-          },
+          initialRoute: AppRouter.intro,
+          onGenerateRoute: appRouter.onGenerateRoute,
         );
       },
     );

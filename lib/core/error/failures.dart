@@ -1,17 +1,10 @@
+// نوع مشترك لتمثيل فشل العملية مع رسالة توضح السبب.
 abstract class Failure {
   final String message;
-
-  const Failure(this.message);
+  Failure(this.message);
 }
 
+// يمثّل فشل العملية بسبب الخادم.
 class ServerFailure extends Failure {
-  const ServerFailure(super.message);
-}
-
-class CacheFailure extends Failure {
-  const CacheFailure(super.message);
-}
-
-class NetworkFailure extends Failure {
-  const NetworkFailure(super.message);
+  ServerFailure(super.message);
 }

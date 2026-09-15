@@ -1,126 +1,104 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../theme/app_colors.dart';
 import '../theme/app_text_styles.dart';
 
+// حقل إدخال مشترك يدعم التحقق وإخفاء كلمة المرور وتخصيص المظهر.
 class CustomTextField extends StatelessWidget {
-  // Placeholder shown before the user types.
+  final EdgeInsetsGeometry? contentPadding;
+  final bool? isDense;
+  final TextAlign? textAlign;
+  final TextEditingController controller;
   final String hintText;
-
-  // Gives the parent access to the entered value.
-  final TextEditingController? controller;
-
-  // True for password fields.
   final bool obscureText;
-
-  // Controls which keyboard appears.
-  final TextInputType? keyboardType;
-
-  // Optional icon inside the field.
+  final TextInputType keyboardType;
   final Widget? suffixIcon;
-
-  // Used when the Figma hint needs an underline.
   final bool underlineHint;
-
-  // Allows each screen to provide its own validation.
-  final String? Function(String?)? validator;
-
   final double? width;
   final double? height;
+  final double? borderRadius;
+  final TextDirection? textDirection;
   final Color? enabledBorderColor;
   final Color? focusedBorderColor;
-  final double borderRadius;
-  final TextDirection textDirection;
+  final Color? fillColor;
   final TextStyle? textStyle;
   final TextStyle? hintStyle;
+  final FormFieldValidator<String>? validator;
+  final AutovalidateMode? autovalidateMode;
 
   const CustomTextField({
     super.key,
+    required this.controller,
     required this.hintText,
-    this.controller,
+    this.contentPadding,
+    this.isDense,
+    this.textAlign,
     this.obscureText = false,
-    this.keyboardType,
+    this.keyboardType = TextInputType.text,
     this.suffixIcon,
     this.underlineHint = false,
-    this.validator,
     this.width,
     this.height,
+    this.borderRadius,
+    this.textDirection,
     this.enabledBorderColor,
     this.focusedBorderColor,
-    this.borderRadius = 10,
-    this.textDirection = TextDirection.rtl,
+    this.fillColor,
     this.textStyle,
     this.hintStyle,
+    this.validator,
+    this.autovalidateMode,
   });
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      // Exact TextField size from Figma.
-      width: (width ?? 270).w,
-      height: (height ?? 44).h,
-      child: TextFormField(
-        controller: controller,
-        obscureText: obscureText,
-        keyboardType: keyboardType,
-        validator: validator,
-
-        // Arabic input starts from the right.
-        textDirection: textDirection,
-        textAlign: TextAlign.right,
-        textAlignVertical: TextAlignVertical.center,
-
-        // Style of text entered by the user.
-        style: textStyle ??
-            AppTextStyles.fieldHint.copyWith(
-              color: AppColors.darkBrown,
-            ),
-
-        decoration: InputDecoration(
-          hintText: hintText,
-
-          // Style of the placeholder.
-          hintStyle: hintStyle ??
-              AppTextStyles.fieldHint.copyWith(
-                decoration:
-                    underlineHint ? TextDecoration.underline : TextDecoration.none,
+    return ConstrainedBox(
+      constraints: BoxConstraints(minHeight: height?.h ?? 0),
+      child: SizedBox(
+        width: width?.w,
+        child: TextFormField(
+          controller: controller,
+          obscureText: obscureText,
+          keyboardType: keyboardType,
+          textDirection: textDirection,
+          textAlign: textAlign ?? TextAlign.start,
+          validator: validator,
+          autovalidateMode: autovalidateMode,
+          style: textStyle ??
+              TextStyle(fontSize: 14.sp, color: AppColors.darkBrown),
+          decoration: InputDecoration(
+            hintText: hintText,
+            hintStyle: hintStyle ??
+                AppTextStyles.fieldHint.copyWith(
+                  decoration: underlineHint ? TextDecoration.underline : null,
+                ),
+            suffixIcon: suffixIcon,
+            filled: true,
+            fillColor: fillColor ?? AppColors.fieldBackground,
+            isDense: isDense,
+            contentPadding: contentPadding ??
+                EdgeInsets.symmetric(
+                  horizontal: 15.w,
+                  vertical: 12.h,
+                ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(borderRadius?.r ?? 10.r),
+              borderSide: BorderSide(
+                color: enabledBorderColor ?? AppColors.fieldBorder,
               ),
-
-          // Enables the Figma background color.
-          filled: true,
-          fillColor: AppColors.fieldBackground,
-
-          // Helps the content fit inside the 44px field height.
-          isDense: false,
-
-          contentPadding: EdgeInsets.symmetric(
-            horizontal: 12.w,
-          ),
-
-          // In RTL, the suffix appears on the left.
-          suffixIcon: suffixIcon,
-
-          suffixIconConstraints: BoxConstraints(
-            minWidth: 44.w,
-            minHeight: 44.h,
-          ),
-
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(borderRadius.r),
-            borderSide: BorderSide(
-              color: enabledBorderColor ?? AppColors.fieldBorder,
-              width: 1,
             ),
-          ),
-
-          // Border when the user taps the field.
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(borderRadius.r),
-            borderSide: BorderSide(
-              color: focusedBorderColor ?? AppColors.orange,
-              width: 1,
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(borderRadius?.r ?? 10.r),
+              borderSide: BorderSide(
+                color: focusedBorderColor ?? AppColors.orange,
+                width: 1.5,
+              ),
             ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(borderRadius?.r ?? 10.r),
+            ),
+            errorMaxLines: 2,
+            errorStyle: TextStyle(fontSize: 10.sp, color: AppColors.orange),
           ),
         ),
       ),

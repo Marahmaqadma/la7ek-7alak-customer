@@ -3,10 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'app_colors.dart';
 
+// أنماط النصوص المشتركة؛ تتكيف أحجام الخطوط مع أبعاد الشاشة.
 class AppTextStyles {
   AppTextStyles._();
-//login screen
-  // "لحّق حالك"
+
+  // تنسيق اسم التطبيق.
   static TextStyle get appTitle => TextStyle(
     fontFamily: 'Tajawal',
     fontSize: 22.sp,
@@ -15,7 +16,7 @@ class AppTextStyles {
     color: AppColors.darkBrown,
   );
 
-  // "لا تفوت العرض... الحق حالك"
+  // تنسيق العبارة التعريفية.
   static TextStyle get tagline => TextStyle(
     fontFamily: 'Tajawal',
     fontSize: 10.sp,
@@ -24,7 +25,7 @@ class AppTextStyles {
     color: AppColors.orange,
   );
 
-  // "تسجيل الدخول"
+  // تنسيق عنوان شاشة الدخول.
   static TextStyle get screenTitle => TextStyle(
     fontFamily: 'Tajawal',
     fontSize: 16.sp,
@@ -33,7 +34,7 @@ class AppTextStyles {
     color: AppColors.darkBrown,
   );
 
-  // "سجل دخولك للمتابعة"
+  // تنسيق وصف شاشة الدخول.
   static TextStyle get screenSubtitle => TextStyle(
     fontFamily: 'Tajawal',
     fontSize: 12.sp,
@@ -42,7 +43,7 @@ class AppTextStyles {
     color: AppColors.grey,
   );
 
-  // Labels مثل البريد الإلكتروني / كلمة المرور
+  // تنسيق عنوان الحقل.
   static TextStyle get fieldLabel => TextStyle(
     fontFamily: 'Tajawal',
     fontSize: 11.sp,
@@ -51,7 +52,7 @@ class AppTextStyles {
     color: AppColors.darkBrown,
   );
 
-  // Hint داخل TextField
+  // تنسيق النص الإرشادي داخل الحقل.
   static TextStyle get fieldHint => TextStyle(
     fontFamily: 'Tajawal',
     fontSize: 12.sp,
@@ -60,7 +61,7 @@ class AppTextStyles {
     color: AppColors.hint,
   );
 
-  // "نسيت كلمة المرور؟"
+  // تنسيق روابط المساعدة.
   static TextStyle get linkText => TextStyle(
     fontFamily: 'Tajawal',
     fontSize: 10.sp,
@@ -69,7 +70,7 @@ class AppTextStyles {
     color: AppColors.orange,
   );
 
-  // "اختر نوع الدخول"
+  // تنسيق عنوان اختيار الدور.
   static TextStyle get loginTypeLabel => TextStyle(
     fontFamily: 'Tajawal',
     fontSize: 11.sp,
@@ -78,7 +79,7 @@ class AppTextStyles {
     color: AppColors.grey,
   );
 
-  // "الدخول كمستهلك" / "الدخول كتاجر"
+  // تنسيق عنوان بطاقة الدور.
   static TextStyle get loginTypeTitle => TextStyle(
     fontFamily: 'Tajawal',
     fontSize: 13.sp,
@@ -87,7 +88,7 @@ class AppTextStyles {
     color: AppColors.darkBrown,
   );
 
-  // النص الصغير داخل بطاقات نوع الدخول
+  // تنسيق وصف بطاقة الدور.
   static TextStyle get loginTypeSubtitle => TextStyle(
     fontFamily: 'Tajawal',
     fontSize: 9.sp,
@@ -96,7 +97,7 @@ class AppTextStyles {
     color: AppColors.grey,
   );
 
-  // "ليس لديك حساب؟"
+  // تنسيق النصوص الثانوية.
   static TextStyle get secondaryText => TextStyle(
     fontFamily: 'Tajawal',
     fontSize: 11.sp,
@@ -105,7 +106,7 @@ class AppTextStyles {
     color: AppColors.grey,
   );
 
-  // "إنشاء حساب جديد"
+  // تنسيق روابط الإجراءات.
   static TextStyle get actionText => TextStyle(
     fontFamily: 'Tajawal',
     fontSize: 11.sp,
@@ -114,7 +115,7 @@ class AppTextStyles {
     color: AppColors.selectedOrange,
   );
 
-  // Admin button
+  // تنسيق زر دخول المسؤول.
   static TextStyle get adminButton => TextStyle(
     fontFamily: 'Tajawal',
     fontSize: 10.sp,
@@ -123,9 +124,7 @@ class AppTextStyles {
     color: AppColors.merchantBrown,
   );
 
-  //verification code screen
-
-  // Large page title
+  // تنسيق عنوان الصفحة الكبير.
   static TextStyle get pageTitleLarge => TextStyle(
     fontFamily: 'Tajawal',
     fontSize: 18.sp,
@@ -134,7 +133,7 @@ class AppTextStyles {
     color: AppColors.darkBrown,
   );
 
-  // Small colored page subtitle
+  // تنسيق وصف الصفحة القصير.
   static TextStyle get pageSubtitleSmall => TextStyle(
     fontFamily: 'Tajawal',
     fontSize: 10.sp,
@@ -143,7 +142,7 @@ class AppTextStyles {
     color: AppColors.orange,
   );
 
-  // Small bold form label
+  // تنسيق عنوان الحقل الصغير.
   static TextStyle get formLabelSmall => TextStyle(
     fontFamily: 'Tajawal',
     fontSize: 10.sp,
@@ -152,7 +151,7 @@ class AppTextStyles {
     color: AppColors.darkBrown,
   );
 
-  // Underlined field text
+  // تنسيق النص ذي الخط السفلي.
   static TextStyle get underlinedFieldText => TextStyle(
     fontFamily: 'Tajawal',
     fontSize: 11.sp,
@@ -162,7 +161,7 @@ class AppTextStyles {
     color: AppColors.hint,
   );
 
-  // Verification / PIN code digits
+  // تنسيق أرقام رمز التحقق.
   static TextStyle get codeDigit => TextStyle(
     fontFamily: 'Tajawal',
     fontSize: 18.sp,
@@ -171,7 +170,7 @@ class AppTextStyles {
     color: AppColors.darkBrown,
   );
 
-  // Muted helper caption
+  // تنسيق النص المساعد الهادئ.
   static TextStyle get captionMuted => TextStyle(
     fontFamily: 'Tajawal',
     fontSize: 9.sp,
@@ -180,7 +179,7 @@ class AppTextStyles {
     color: AppColors.mutedText,
   );
 
-  // Highlighted helper caption
+  // تنسيق الجزء البارز من النص المساعد.
   static TextStyle get captionHighlight => TextStyle(
     fontFamily: 'Tajawal',
     fontSize: 9.sp,
@@ -189,12 +188,121 @@ class AppTextStyles {
     color: AppColors.orange,
   );
 
-  // Small filled button text
+  // تنسيق نص الزر الصغير.
   static TextStyle get buttonTextSmall => TextStyle(
     fontFamily: 'Tajawal',
     fontSize: 12.sp,
     fontWeight: FontWeight.w700,
     height: 1,
     color: AppColors.white,
+  );
+
+  // تنسيق عنوان الترحيب.
+  static TextStyle get introTitle => TextStyle(
+    fontFamily: 'Tajawal',
+    fontSize: 20.sp,
+    fontWeight: FontWeight.w700,
+    height: 1.2,
+    letterSpacing: -0.5,
+    color: AppColors.darkBrown,
+  );
+
+  // تنسيق وصف الترحيب.
+  static TextStyle get introSubtitle => TextStyle(
+    fontFamily: 'Tajawal',
+    fontSize: 13.sp,
+    fontWeight: FontWeight.w400,
+    height: 1.5,
+    color: AppColors.introSubtitleGrey,
+  );
+
+  // تنسيق زر شاشة الترحيب.
+  static TextStyle get introButtonText => TextStyle(
+    fontFamily: 'Tajawal',
+    fontSize: 16.sp,
+    fontWeight: FontWeight.w500,
+    height: 1,
+    color: AppColors.white,
+  );
+
+  // تنسيق عنوان اختيار الحساب.
+  static TextStyle get userTypeTitle => TextStyle(
+    fontFamily: 'Tajawal',
+    fontSize: 16.sp,
+    fontWeight: FontWeight.w700,
+    height: 1.2,
+    color: AppColors.introNavy,
+  );
+
+  // تنسيق وصف اختيار الحساب.
+  static TextStyle get userTypeSubtitle => TextStyle(
+    fontFamily: 'Tajawal',
+    fontSize: 10.sp,
+    fontWeight: FontWeight.w400,
+    height: 1.4,
+    color: AppColors.introSubtitleGrey,
+  );
+
+  // تنسيق عنوان بطاقة الحساب.
+  static TextStyle get userTypeCardTitle => TextStyle(
+    fontFamily: 'Tajawal',
+    fontSize: 15.sp,
+    fontWeight: FontWeight.w500,
+    height: 1.2,
+    color: AppColors.darkBrown,
+  );
+
+  // تنسيق وصف بطاقة الحساب.
+  static TextStyle get userTypeCardSubtitle => TextStyle(
+    fontFamily: 'Tajawal',
+    fontSize: 11.sp,
+    fontWeight: FontWeight.w400,
+    height: 1.3,
+    color: AppColors.introSubtitleGrey,
+  );
+
+  // تنسيق خيار تذكرني.
+  static TextStyle get rememberMeText => TextStyle(
+    fontFamily: 'Tajawal',
+    fontSize: 10.sp,
+    fontWeight: FontWeight.w400,
+    height: 1,
+    color: AppColors.introSubtitleGrey,
+  );
+
+  // تنسيق عنوان نموذج الدخول.
+  static TextStyle get loginTitle => TextStyle(
+    fontFamily: 'Tajawal',
+    fontSize: 20.sp,
+    fontWeight: FontWeight.w500,
+    height: 1.2,
+    color: AppColors.introNavy,
+  );
+
+  // تنسيق وصف نموذج الدخول.
+  static TextStyle get loginSubtitle => TextStyle(
+    fontFamily: 'Tajawal',
+    fontSize: 13.sp,
+    fontWeight: FontWeight.w400,
+    height: 1.3,
+    color: AppColors.introSubtitleGrey,
+  );
+
+  // تنسيق عنوان حقل الدخول.
+  static TextStyle get loginFieldLabel => TextStyle(
+    fontFamily: 'Tajawal',
+    fontSize: 12.sp,
+    fontWeight: FontWeight.w700,
+    height: 1,
+    color: AppColors.introNavy,
+  );
+
+  // تنسيق النص الإرشادي لحقل الدخول.
+  static TextStyle get loginFieldHintStyle => TextStyle(
+    fontFamily: 'Tajawal',
+    fontSize: 13.sp,
+    fontWeight: FontWeight.w400,
+    height: 1,
+    color: AppColors.loginFieldHint,
   );
 }
