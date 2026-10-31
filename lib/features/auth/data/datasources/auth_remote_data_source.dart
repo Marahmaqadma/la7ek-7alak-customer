@@ -14,7 +14,6 @@ import '../models/reset_password/reset_password_response.dart';
 
 // يحدد عمليات المصادقة المطلوبة من أي مصدر بيانات خارجي.
 abstract class AuthRemoteDataSource {
-
   // عقد عملية تسجيل الدخول؛ يحدد المدخلات ونوع النتيجة دون تنفيذ الاتصال هنا.
   Future<LoginResponse> login(LoginRequestBody body);
   // عقد عملية إنشاء الحساب؛ يحدد المدخلات ونوع النتيجة دون تنفيذ الاتصال هنا.
@@ -25,14 +24,25 @@ abstract class AuthRemoteDataSource {
   Future<VerifyOtpResponse> verifyOtp(VerifyOtpRequestBody body);
   // عقد عملية تعيين كلمة المرور؛ يحدد المدخلات ونوع النتيجة دون تنفيذ الاتصال هنا.
   Future<ResetPasswordResponse> resetPassword(ResetPasswordRequestBody body);
+  // ينهي جلسة المستخدم لدى مصدر المصادقة.
+  Future<void> logout();
+  // رمز هوية المستخدم الحالي لدى مصدر المصادقة (رمز Firebase)، أو null.
+  Future<String?> currentIdToken();
 }
 
 // ينفّذ مسارات المصادقة عبر Dio؛ إعداد التطبيق الحالي يستخدم مصدر Firebase.
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
-
   final Dio dio;
 
   AuthRemoteDataSourceImpl(this.dio);
+
+  // لا توجد جلسة على الخادم؛ حذف الرمز المحلي يتم في المستودع.
+  @override
+  Future<void> logout() async {}
+
+  // هذا المصدر لا يستخدم Firebase.
+  @override
+  Future<String?> currentIdToken() async => null;
 
   // يرسل طلب تسجيل الدخول عبر HTTP ويحوّل رد JSON إلى النموذج المناسب.
   @override
@@ -60,7 +70,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     ForgotPasswordRequestBody body,
   ) async {
     try {
-
       debugPrint('[forgot-password] sending request');
       final response = await dio.post(
         ApiConstants.forgotPassword,
@@ -70,7 +79,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       debugPrint('[forgot-password] response: ${response.data}');
       return ForgotPasswordResponse.fromJson(response.data);
     } on DioException catch (error) {
-
       debugPrint('[forgot-password] dio error type: ${error.type}');
       debugPrint('[forgot-password] status: ${error.response?.statusCode}');
       debugPrint('[forgot-password] response: ${error.response?.data}');
@@ -93,7 +101,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<ResetPasswordResponse> resetPassword(
     ResetPasswordRequestBody body,
   ) async {
-
     final response = await dio.post(
       ApiConstants.resetPassword,
       data: body.toJson(),

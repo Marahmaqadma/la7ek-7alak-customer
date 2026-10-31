@@ -8,14 +8,12 @@ part 'forgot_password_state.dart';
 
 // يدير طلب استعادة كلمة المرور وينقل الواجهة بين الانتظار والنجاح والخطأ.
 class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
-
   final AuthRepository authRepository;
 
   ForgotPasswordCubit(this.authRepository) : super(ForgotPasswordInitial());
 
   // يبدأ حالة الانتظار ثم يرسل طلب استعادة كلمة المرور ويصدر حالة النجاح أو الخطأ.
   Future<void> forgotPassword(ForgotPasswordRequestBody body) async {
-
     emit(ForgotPasswordLoading());
 
     final result = await authRepository.forgotPassword(body);

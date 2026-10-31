@@ -23,7 +23,6 @@ class SendVerificationCodePage extends StatefulWidget {
 
 // يدير البريد المدخل ونتيجة الإرسال والوقت المتبقي لإعادة الإرسال.
 class _SendVerificationCodePageState extends State<SendVerificationCodePage> {
-
   final _emailFormKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
 
@@ -44,7 +43,6 @@ class _SendVerificationCodePageState extends State<SendVerificationCodePage> {
 
   // يعيد بدء عداد 45 ثانية ويحدّث الوقت المعروض كل ثانية.
   void _startTimer() {
-
     _timer?.cancel();
     setState(() => _secondsLeft = 45);
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -59,7 +57,6 @@ class _SendVerificationCodePageState extends State<SendVerificationCodePage> {
 
   // يحوّل الثواني المتبقية إلى نص بالدقائق والثواني.
   String get _timeText {
-
     final minutes = (_secondsLeft ~/ 60).toString().padLeft(2, '0');
     final seconds = (_secondsLeft % 60).toString().padLeft(2, '0');
     return '$minutes:$seconds';
@@ -77,11 +74,9 @@ class _SendVerificationCodePageState extends State<SendVerificationCodePage> {
     return Scaffold(
       backgroundColor: AppColors.white,
       body: Directionality(
-
         textDirection: TextDirection.rtl,
         child: Stack(
           children: [
-
             Positioned(
               top: -30.h,
               right: -40.w,
@@ -94,14 +89,11 @@ class _SendVerificationCodePageState extends State<SendVerificationCodePage> {
             ),
             SafeArea(
               child: SingleChildScrollView(
-                padding:
-                    EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
+                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
                 child: BlocListener<ForgotPasswordCubit, ForgotPasswordState>(
-
                   // يتابع نتيجة الطلب لإظهار رسالة للمستخدم أو الانتقال إلى الشاشة التالية.
                   listener: (context, state) {
                     if (state is ForgotPasswordSuccess) {
-
                       // الانتقال إلى تعليمات البريد وبدء مهلة إعادة الإرسال.
                       setState(() => _linkSent = true);
                       _startTimer();
@@ -124,10 +116,8 @@ class _SendVerificationCodePageState extends State<SendVerificationCodePage> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       SizedBox(height: 12.h),
-
                       const Center(child: _EnvelopeIllustration()),
                       SizedBox(height: 20.h),
-
                       Text(
                         'هل نسيت كلمة المرور؟',
                         textAlign: TextAlign.center,
@@ -143,9 +133,7 @@ class _SendVerificationCodePageState extends State<SendVerificationCodePage> {
                         style: AppTextStyles.userTypeSubtitle,
                       ),
                       SizedBox(height: 28.h),
-
                       if (!_linkSent)
-
                         _EmailStep(
                           formKey: _emailFormKey,
                           controller: emailController,
@@ -156,14 +144,12 @@ class _SendVerificationCodePageState extends State<SendVerificationCodePage> {
                           },
                         )
                       else
-
                         _CheckEmailStep(
                           email: emailController.text.trim(),
                           secondsLeft: _secondsLeft,
                           timeText: _timeText,
                           // لا يُتاح إرسال رابط جديد قبل انتهاء العداد.
-                          onResend:
-                              _secondsLeft == 0 ? _sendResetEmail : null,
+                          onResend: _secondsLeft == 0 ? _sendResetEmail : null,
                           onEditEmail: () => setState(() => _linkSent = false),
                         ),
                       SizedBox(height: 16.h),
@@ -218,7 +204,6 @@ class _EmailStep extends StatelessWidget {
             children: [
               Text('البريد الإلكتروني', style: AppTextStyles.loginFieldLabel),
               SizedBox(height: 8.h),
-
               CustomTextField(
                 controller: controller,
                 hintText: 'ayaayaaya@gmail',
@@ -279,7 +264,6 @@ class _CheckEmailStep extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-
         Text(
           'أرسلنا رابط إعادة تعيين كلمة المرور إلى:',
           textAlign: TextAlign.center,

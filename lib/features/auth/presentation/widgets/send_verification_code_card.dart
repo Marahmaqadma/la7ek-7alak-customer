@@ -27,7 +27,6 @@ class SendVerificationCodeCard extends StatefulWidget {
 
 // يدير خانات الرمز والتنقل بينها ومؤقت إعادة الإرسال.
 class _SendVerificationCodeCardState extends State<SendVerificationCodeCard> {
-
   final _emailFormKey = GlobalKey<FormState>();
   final _otpFormKey = GlobalKey<FormState>();
 
@@ -58,7 +57,6 @@ class _SendVerificationCodeCardState extends State<SendVerificationCodeCard> {
 
   // يعيد بدء عداد 45 ثانية ويحدّث الوقت المعروض كل ثانية.
   void _startTimer() {
-
     _timer?.cancel();
     setState(() => _secondsLeft = 45);
 
@@ -74,7 +72,6 @@ class _SendVerificationCodeCardState extends State<SendVerificationCodeCard> {
 
   // ينقل التركيز للخانة التالية عند الكتابة وللسابقة عند الحذف.
   void _onOtpChanged(String value, int index) {
-
     if (value.isNotEmpty && index < otpFocusNodes.length - 1) {
       otpFocusNodes[index + 1].requestFocus();
     }
@@ -86,7 +83,6 @@ class _SendVerificationCodeCardState extends State<SendVerificationCodeCard> {
 
   @override
   Widget build(BuildContext context) {
-
     final forgotPasswordState = context.watch<ForgotPasswordCubit>().state;
     final verifyOtpState = context.watch<VerifyOtpCubit>().state;
     final isSendingCode = forgotPasswordState is ForgotPasswordLoading;
@@ -94,12 +90,10 @@ class _SendVerificationCodeCardState extends State<SendVerificationCodeCard> {
 
     return MultiBlocListener(
       listeners: [
-
         BlocListener<ForgotPasswordCubit, ForgotPasswordState>(
           // يتابع نتيجة الطلب لإظهار رسالة للمستخدم أو الانتقال إلى الشاشة التالية.
           listener: (context, state) {
             if (state is ForgotPasswordSuccess) {
-
               _startTimer();
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
@@ -110,26 +104,22 @@ class _SendVerificationCodeCardState extends State<SendVerificationCodeCard> {
                 ),
               );
             } else if (state is ForgotPasswordError) {
-
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(state.error)),
               );
             }
           },
         ),
-
         BlocListener<VerifyOtpCubit, VerifyOtpState>(
           // يتابع نتيجة الطلب لإظهار رسالة للمستخدم أو الانتقال إلى الشاشة التالية.
           listener: (context, state) {
             if (state is VerifyOtpSuccess) {
-
               Navigator.pushNamed(
                 context,
                 AppRouter.resetPassword,
                 arguments: emailController.text.trim(),
               );
             } else if (state is VerifyOtpError) {
-
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(state.error)),
               );
@@ -154,7 +144,6 @@ class _SendVerificationCodeCardState extends State<SendVerificationCodeCard> {
                   validator: Validators.email,
                   isLoading: isSendingCode,
                   onSendCode: () {
-
                     if (_emailFormKey.currentState!.validate()) {
                       context.read<ForgotPasswordCubit>().forgotPassword(
                             ForgotPasswordRequestBody(
@@ -173,7 +162,6 @@ class _SendVerificationCodeCardState extends State<SendVerificationCodeCard> {
                   controllers: otpControllers,
                   focusNodes: otpFocusNodes,
                   activeCount: otpControllers.length,
-
                   hints: const ['5', '8', '', '', '', ''],
                   validator: Validators.otpDigit,
                   onChanged: _onOtpChanged,
@@ -190,7 +178,6 @@ class _SendVerificationCodeCardState extends State<SendVerificationCodeCard> {
                       text: 'تحقق',
                       // لا يرسل الطلب إلا بعد اجتياز الحقول لقواعد التحقق.
                       onTap: () {
-
                         if (_otpFormKey.currentState!.validate()) {
                           context.read<VerifyOtpCubit>().verifyOtp(
                                 VerifyOtpRequestBody(
@@ -220,7 +207,6 @@ class ResendTimerText extends StatelessWidget {
 
   // ينسّق مدة الانتظار لتظهر بالدقائق والثواني.
   String get time {
-
     final minutes = (secondsLeft ~/ 60).toString().padLeft(2, '0');
     final seconds = (secondsLeft % 60).toString().padLeft(2, '0');
     return '$minutes:$seconds';

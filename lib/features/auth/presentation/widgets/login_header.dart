@@ -10,13 +10,10 @@ class LoginHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-
       width: 360.w,
       height: 210.h,
-
       child: Stack(
         children: [
-
           Positioned(
             top: 32.h,
             left: 116.w,
@@ -27,7 +24,6 @@ class LoginHeader extends StatelessWidget {
               fit: BoxFit.contain,
             ),
           ),
-
           Positioned(
             top: 143.h,
             left: 0,
@@ -38,7 +34,6 @@ class LoginHeader extends StatelessWidget {
               style: AppTextStyles.appTitle,
             ),
           ),
-
           Positioned(
             top: 182.h,
             left: 0,

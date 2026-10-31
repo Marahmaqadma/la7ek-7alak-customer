@@ -81,7 +81,6 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                   child: Center(
                     child: Column(
                       children: [
-
                         Image.asset(
                           'assets/images/logo.png',
                           width: 108.w,
@@ -89,7 +88,6 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                           fit: BoxFit.contain,
                         ),
                         SizedBox(height: 16.h),
-
                         Text(
                           "استعادة كلمة المرور",
                           style: TextStyle(
@@ -99,7 +97,6 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                           ),
                         ),
                         SizedBox(height: 4.h),
-
                         Text(
                           "",
                           style: TextStyle(
@@ -109,7 +106,6 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                           ),
                         ),
                         SizedBox(height: 30.h),
-
                         Container(
                           width: 310.w,
                           padding: EdgeInsets.symmetric(
@@ -132,7 +128,6 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-
                                 _buildLabel("كلمة المرور الجديدة"),
                                 SizedBox(height: 8.h),
                                 _buildPasswordField(
@@ -147,7 +142,6 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                   },
                                 ),
                                 SizedBox(height: 20.h),
-
                                 _buildLabel("تأكيد كلمة المرور الجديدة"),
                                 SizedBox(height: 8.h),
                                 _buildPasswordField(
@@ -166,7 +160,6 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                   },
                                 ),
                                 SizedBox(height: 20.h),
-
                                 _buildValidationItem(
                                   "يجب أن تحتوي كلمة المرور على 8 خانات (حروف , أرقام , رموز).",
                                   isValid:
@@ -180,9 +173,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                           _newPasswordController.text ==
                                               _confirmPasswordController.text,
                                 ),
-
                                 SizedBox(height: 30.h),
-
                                 if (state is ResetPasswordLoading)
                                   const Center(
                                     child: CircularProgressIndicator(),
@@ -320,7 +311,6 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Icon(
-
           isValid ? Icons.check_box : Icons.check_box_outline_blank,
           size: 16.sp,
           color: const Color(0xFFC05A34),

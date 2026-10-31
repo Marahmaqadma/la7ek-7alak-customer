@@ -9,7 +9,6 @@ class RegisterBackgroundWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-
         Positioned(
           top: -20.h,
           left: -20.w,
@@ -22,7 +21,6 @@ class RegisterBackgroundWidget extends StatelessWidget {
             ),
           ),
         ),
-
         Positioned(
           top: 170.h,
           right: -30.w,

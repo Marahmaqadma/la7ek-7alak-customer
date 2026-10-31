@@ -5,7 +5,6 @@ part 'user_data_model.g.dart';
 // نموذج بيانات المستخدم مع تحويل بين JSON وكائنات Dart.
 @JsonSerializable()
 class UserDataModel {
-
   @JsonKey(name: 'id')
   final String? id;
 

@@ -1,5 +1,3 @@
-
-
 // يحمل رمز الدخول والرسالة، ويدعم اسمي token وaccess_token في الرد.
 class UserModel {
   final String? token;

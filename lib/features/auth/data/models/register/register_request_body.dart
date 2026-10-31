@@ -5,6 +5,8 @@ class RegisterRequestBody {
   final String password;
   final String role;
   final String phone;
+  // المدينة المختارة؛ تُرسل للباك إند كعنوان عند ربط الحساب.
+  final String? address;
 
   RegisterRequestBody({
     required this.fullName,
@@ -12,6 +14,7 @@ class RegisterRequestBody {
     required this.password,
     required this.role,
     required this.phone,
+    this.address,
   });
 
   // يحوّل الحقول إلى مفاتيح JSON التي تتوقعها الخدمة.

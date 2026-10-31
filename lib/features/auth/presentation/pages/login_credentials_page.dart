@@ -16,7 +16,6 @@ import '../widgets/login_type_card.dart' show LoginType;
 
 // تستقبل نوع الحساب وتعرض نموذج البريد وكلمة المرور.
 class LoginCredentialsPage extends StatefulWidget {
-
   final LoginType loginType;
 
   const LoginCredentialsPage({super.key, required this.loginType});
@@ -27,7 +26,6 @@ class LoginCredentialsPage extends StatefulWidget {
 
 // يدير حقول الدخول وإظهار كلمة المرور وخيار تذكرني.
 class _LoginCredentialsPageState extends State<LoginCredentialsPage> {
-
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -46,7 +44,6 @@ class _LoginCredentialsPageState extends State<LoginCredentialsPage> {
 
   @override
   Widget build(BuildContext context) {
-
     // نوع الحساب يحدد نص الزر والصفحة التي تُفتح بعد نجاح الدخول.
     final bool isMerchant = widget.loginType == LoginType.merchant;
     final sx = MediaQuery.sizeOf(context).width / 375;
@@ -55,11 +52,9 @@ class _LoginCredentialsPageState extends State<LoginCredentialsPage> {
     return Scaffold(
       backgroundColor: AppColors.white,
       body: Directionality(
-
         textDirection: TextDirection.rtl,
         child: Stack(
           children: [
-
             Positioned(
               top: -70 * sy,
               left: -24 * sx,
@@ -70,7 +65,6 @@ class _LoginCredentialsPageState extends State<LoginCredentialsPage> {
               left: 325 * sx,
               child: _decorativeCircle(68 * sx, 68 * sy),
             ),
-
             Positioned(
                 top: 77 * sy,
                 left: 325 * sx,
@@ -83,7 +77,6 @@ class _LoginCredentialsPageState extends State<LoginCredentialsPage> {
                       padding: EdgeInsets.symmetric(
                           horizontal: 16 * sx, vertical: 0),
                       child: BlocConsumer<LoginCubit, LoginState>(
-
                         // يتابع نتيجة الطلب لإظهار رسالة للمستخدم أو الانتقال إلى الشاشة التالية.
                         listener: (context, state) async {
                           if (state is LoginSuccess) {
@@ -93,19 +86,17 @@ class _LoginCredentialsPageState extends State<LoginCredentialsPage> {
                             );
                             // حفظ اسم المستهلك قبل فتح حسابه، بينما ينتقل التاجر إلى واجهته الخاصة.
                             if (!isMerchant) {
-
                               await const StorageService().saveUserFullName(
                                   state.loginResponse.user.fullName);
                               if (!context.mounted) return;
                               Navigator.pushReplacementNamed(
-                                  context, AppRouter.home);
+                                  context, AppRouter.interests,
+                                  arguments: true);
                             } else {
-
                               Navigator.pushReplacementNamed(
                                   context, AppRouter.sellerHome);
                             }
                           } else if (state is LoginError) {
-
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text(state.error)),
                             );
@@ -121,7 +112,6 @@ class _LoginCredentialsPageState extends State<LoginCredentialsPage> {
                                     height: (82 * sy -
                                             MediaQuery.paddingOf(context).top)
                                         .clamp(0.0, double.infinity)),
-
                                 Text('تسجيل الدخول',
                                     style: AppTextStyles.loginTitle
                                         .copyWith(fontSize: 20 * sx)),
@@ -132,7 +122,6 @@ class _LoginCredentialsPageState extends State<LoginCredentialsPage> {
                                       fontSize: 14 * sx, height: 19 / 14),
                                 ),
                                 SizedBox(height: 30 * sy),
-
                                 Text('البريد الإلكتروني',
                                     style: AppTextStyles.loginFieldLabel
                                         .copyWith(
@@ -168,7 +157,6 @@ class _LoginCredentialsPageState extends State<LoginCredentialsPage> {
                                       horizontal: 9 * sx, vertical: 15.5 * sy),
                                 ),
                                 SizedBox(height: 27 * sy),
-
                                 Text('كلمة المرور',
                                     style: AppTextStyles.loginFieldLabel
                                         .copyWith(
@@ -216,7 +204,6 @@ class _LoginCredentialsPageState extends State<LoginCredentialsPage> {
                                   ),
                                 ),
                                 SizedBox(height: 10 * sy),
-
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -274,7 +261,6 @@ class _LoginCredentialsPageState extends State<LoginCredentialsPage> {
                                   ],
                                 ),
                                 SizedBox(height: 30 * sy),
-
                                 Center(
                                   child: state is LoginLoading
                                       ? const CircularProgressIndicator()
@@ -319,34 +305,39 @@ class _LoginCredentialsPageState extends State<LoginCredentialsPage> {
                       ),
                     ),
                   ),
-
-                  Padding(
-                    padding: EdgeInsets.only(
-                        bottom: (48 * sy - MediaQuery.paddingOf(context).bottom)
-                            .clamp(13 * sy, double.infinity)),
-                    child: Center(
-                      child: GestureDetector(
-                        onTap: () =>
-                            Navigator.pushNamed(context, AppRouter.register),
-                        child: SizedBox(
-                          height: 24 * sy,
-                          child: Text.rich(TextSpan(
-                            style: TextStyle(
-                                fontFamily: 'Tajawal',
-                                fontSize: 14 * sx,
-                                height: 24 / 14,
-                                color: AppColors.introNavy),
-                            children: const [
-                              TextSpan(text: 'هل لديك حساب ؟ '),
-                              TextSpan(
-                                  text: 'قم بالإنشاء',
-                                  style: TextStyle(color: Color(0xFFFF8A00))),
-                            ],
-                          )),
+                  // إنشاء الحساب للزبائن فقط؛ حسابات التجار ينشئها الأدمن،
+                  // فنترك مكان الرابط فارغًا للتاجر حتى لا يتغير التصميم.
+                  if (isMerchant)
+                    SizedBox(height: 48 * sy + 24 * sy)
+                  else
+                    Padding(
+                      padding: EdgeInsets.only(
+                          bottom:
+                              (48 * sy - MediaQuery.paddingOf(context).bottom)
+                                  .clamp(13 * sy, double.infinity)),
+                      child: Center(
+                        child: GestureDetector(
+                          onTap: () =>
+                              Navigator.pushNamed(context, AppRouter.register),
+                          child: SizedBox(
+                            height: 24 * sy,
+                            child: Text.rich(TextSpan(
+                              style: TextStyle(
+                                  fontFamily: 'Tajawal',
+                                  fontSize: 14 * sx,
+                                  height: 24 / 14,
+                                  color: AppColors.introNavy),
+                              children: const [
+                                TextSpan(text: 'هل لديك حساب ؟ '),
+                                TextSpan(
+                                    text: 'قم بالإنشاء',
+                                    style: TextStyle(color: Color(0xFFFF8A00))),
+                              ],
+                            )),
+                          ),
                         ),
                       ),
                     ),
-                  ),
                 ],
               ),
             ),

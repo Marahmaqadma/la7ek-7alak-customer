@@ -3,19 +3,21 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:la7ek_7alak/core/theme/app_colors.dart';
 import 'package:la7ek_7alak/core/utils/validators.dart';
 
-// يفتح قائمة المدن ويحفظ الاختيار داخل حالة حقل النموذج للتحقق منه.
+// حقل المدينة في التسجيل: يعرض المدينة المختارة، والضغط عليه يطلب من الصفحة
+// اختيار الموقع على الخريطة. [onPickCity] ترجع اسم المدينة الأقرب، أو null إن
+// رجع الزبون بدون تأكيد. القيمة تُحفظ في حالة الحقل للتحقق منها.
 class RegisterDropdownField extends StatelessWidget {
   final String label;
   final String hint;
   final String? selectedCity;
-  final ValueChanged<String> onCitySelected;
+  final Future<String?> Function() onPickCity;
 
   const RegisterDropdownField({
     super.key,
     required this.label,
     required this.hint,
     required this.selectedCity,
-    required this.onCitySelected,
+    required this.onPickCity,
   });
 
   @override
@@ -40,38 +42,10 @@ class RegisterDropdownField extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 GestureDetector(
-                  onTap: () {
-                    // فتح قائمة المدن دون مغادرة النموذج.
-                    showModalBottomSheet(
-                      context: context,
-                      builder: (context) => Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: ListView(
-                          shrinkWrap: true,
-                          children: [
-                            'شمال غزة',
-                            'مدينة غزة',
-                            'النصيرات',
-                            'دير البلح',
-                            'المغازي',
-                            'البريج',
-                            'خانيونس',
-                          ]
-                              .map(
-                                (city) => ListTile(
-                                  title: Text(city),
-                                  onTap: () {
-                                    onCitySelected(city);
-                                    // إبلاغ النموذج بالقيمة المختارة حتى ينجح التحقق من حقل المدينة.
-                                    field.didChange(city);
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              )
-                              .toList(),
-                        ),
-                      ),
-                    );
+                  onTap: () async {
+                    final city = await onPickCity();
+                    // إبلاغ النموذج بالقيمة المختارة حتى ينجح التحقق من الحقل.
+                    if (city != null && field.mounted) field.didChange(city);
                   },
                   child: Container(
                     height: 52.h,
@@ -86,19 +60,22 @@ class RegisterDropdownField extends StatelessWidget {
                       ),
                     ),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          selectedCity ?? hint,
-                          style: TextStyle(
-                            color: selectedCity != null
-                                ? AppColors.introNavy
-                                : const Color(0xFF9EA3B0),
-                            fontSize: 13.sp,
+                        Expanded(
+                          child: Text(
+                            selectedCity ?? hint,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: selectedCity != null
+                                  ? AppColors.introNavy
+                                  : const Color(0xFF9EA3B0),
+                              fontSize: 13.sp,
+                            ),
                           ),
                         ),
                         Icon(
-                          Icons.keyboard_arrow_down,
+                          Icons.location_on_outlined,
                           color: AppColors.introNavy,
                           size: 24.sp,
                         ),

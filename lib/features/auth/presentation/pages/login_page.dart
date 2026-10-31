@@ -19,9 +19,7 @@ class LoginPage extends StatelessWidget {
           child: SingleChildScrollView(
             child: Center(
               child: SizedBox(
-
                 width: 360.w,
-
                 child: Column(
                   children: [
                     const LoginHeader(),

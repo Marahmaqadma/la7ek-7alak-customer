@@ -11,7 +11,8 @@ class WelcomeBottomCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.only(top: 35.h, left: 24.w, right: 24.w, bottom: 30.h),
+      padding:
+          EdgeInsets.only(top: 35.h, left: 24.w, right: 24.w, bottom: 30.h),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
@@ -27,7 +28,8 @@ class WelcomeBottomCard extends StatelessWidget {
         ],
       ),
       child: Column(
-        mainAxisSize: MainAxisSize.min, // مهم جداً ليأخذ حجم المحتوى فقط بدون فراغات زيادة
+        mainAxisSize: MainAxisSize
+            .min, // مهم جداً ليأخذ حجم المحتوى فقط بدون فراغات زيادة
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(

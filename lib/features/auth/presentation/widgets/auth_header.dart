@@ -9,13 +9,10 @@ class AuthHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-
       width: 360.w,
       height: 200.h,
-
       child: Stack(
         children: [
-
           Positioned(
             top: 32.h,
             left: 116.w,
@@ -23,23 +20,19 @@ class AuthHeader extends StatelessWidget {
               'assets/images/logo.png',
               width: 129.w,
               height: 129.h,
-
               fit: BoxFit.contain,
             ),
           ),
-
           Positioned(
             top: 143.h,
             left: 0,
             right: 0,
             child: Text(
               'لحّق حالك',
-
               textAlign: TextAlign.center,
               style: AppTextStyles.appTitle,
             ),
           ),
-
           Positioned(
             top: 182.h,
             left: 0,

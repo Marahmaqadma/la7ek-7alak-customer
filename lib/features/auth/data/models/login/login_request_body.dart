@@ -1,4 +1,3 @@
-
 // بيانات طلب تسجيل الدخول التي تُمرر إلى مصدر المصادقة.
 class LoginRequestBody {
   final String email;

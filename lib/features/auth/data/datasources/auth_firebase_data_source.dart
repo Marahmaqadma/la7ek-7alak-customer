@@ -31,7 +31,6 @@ class AuthFirebaseDataSourceImpl implements AuthRemoteDataSource {
   // يسجل الدخول بالبريد وكلمة المرور ثم يجلب رمز الهوية وبيانات الملف.
   @override
   Future<LoginResponse> login(LoginRequestBody body) async {
-
     final credential = await _firebaseAuth.signInWithEmailAndPassword(
       email: body.email,
       password: body.password,
@@ -62,7 +61,6 @@ class AuthFirebaseDataSourceImpl implements AuthRemoteDataSource {
   Future<register_models.RegisterResponse> register(
     RegisterRequestBody body,
   ) async {
-
     final credential = await _firebaseAuth.createUserWithEmailAndPassword(
       email: body.email,
       password: body.password,
@@ -104,7 +102,6 @@ class AuthFirebaseDataSourceImpl implements AuthRemoteDataSource {
   Future<ForgotPasswordResponse> forgotPassword(
     ForgotPasswordRequestBody body,
   ) async {
-
     await _firebaseAuth.sendPasswordResetEmail(email: body.email);
 
     return ForgotPasswordResponse(
@@ -115,7 +112,6 @@ class AuthFirebaseDataSourceImpl implements AuthRemoteDataSource {
   // غير مدعوم في هذا المصدر؛ استعادة كلمة المرور تستخدم رابط البريد.
   @override
   Future<VerifyOtpResponse> verifyOtp(VerifyOtpRequestBody body) async {
-
     throw UnimplementedError(
       'التحقق برمز OTP غير مدعوم بعد الانتقال إلى Firebase Auth؛ '
       'استخدم رابط إعادة تعيين كلمة المرور المرسل بالبريد بدلاً من ذلك.',
@@ -127,11 +123,24 @@ class AuthFirebaseDataSourceImpl implements AuthRemoteDataSource {
   Future<ResetPasswordResponse> resetPassword(
     ResetPasswordRequestBody body,
   ) async {
-
     throw UnimplementedError(
       'تغيير كلمة المرور من داخل التطبيق غير مدعوم بعد الانتقال إلى '
       'Firebase Auth؛ يتم ذلك عبر رابط البريد الإلكتروني مباشرة.',
     );
+  }
+
+  // يُخرج المستخدم من Firebase.
+  @override
+  Future<void> logout() => _firebaseAuth.signOut();
+
+  // بعد الدخول أو إنشاء الحساب يكون المستخدم مسجلًا في Firebase.
+  // عند فتح التطبيق يستعيد Firebase المستخدم المحفوظ بعد لحظة، فننتظر أول
+  // حالة له إن لم يكن جاهزًا بعد.
+  @override
+  Future<String?> currentIdToken() async {
+    final user = _firebaseAuth.currentUser ??
+        await _firebaseAuth.authStateChanges().first;
+    return user?.getIdToken();
   }
 
   // يقرأ الاسم والدور من Firestore مع قيم بديلة عند غياب بيانات الملف.
@@ -144,7 +153,9 @@ class AuthFirebaseDataSourceImpl implements AuthRemoteDataSource {
       id: user.uid,
       fullName: (data?['fullName'] as String?) ?? user.displayName ?? '',
       email: user.email ?? '',
-      role: (data?['role'] as String?) ?? 'consumer',
+      // فارغ إن لم يُحفظ دور في Firestore (مثل تاجر أنشأه الأدمن بدون مستند)،
+      // فلا نمنعه من الدخول بناءً على قيمة مفترضة.
+      role: (data?['role'] as String?) ?? '',
     );
   }
 }

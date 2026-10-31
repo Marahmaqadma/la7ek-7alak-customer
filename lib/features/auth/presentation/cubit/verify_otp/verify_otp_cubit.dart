@@ -8,22 +8,22 @@ part 'verify_otp_state.dart';
 
 // يدير طلب التحقق من الرمز وينقل الواجهة بين الانتظار والنجاح والخطأ.
 class VerifyOtpCubit extends Cubit<VerifyOtpState> {
-
   final AuthRepository authRepository;
 
   VerifyOtpCubit(this.authRepository) : super(VerifyOtpInitial());
 
   // يبدأ حالة الانتظار ثم يرسل طلب التحقق من الرمز ويصدر حالة النجاح أو الخطأ.
-  void verifyOtp(VerifyOtpRequestBody body) {
-
+  Future<void> verifyOtp(VerifyOtpRequestBody body) async {
     emit(VerifyOtpLoading());
 
-    authRepository.verifyOtp(body).then((result) {
+    final result = await authRepository.verifyOtp(body);
 
-      result.fold(
-        (errorHandler) => emit(VerifyOtpError(errorHandler.message)),
-        (verifyOtpResponse) => emit(VerifyOtpSuccess(verifyOtpResponse)),
-      );
-    });
+    // المستخدم ممكن يغادر الشاشة قبل وصول الرد.
+    if (isClosed) return;
+
+    result.fold(
+      (errorHandler) => emit(VerifyOtpError(errorHandler.message)),
+      (verifyOtpResponse) => emit(VerifyOtpSuccess(verifyOtpResponse)),
+    );
   }
 }

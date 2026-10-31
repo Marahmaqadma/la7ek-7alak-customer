@@ -51,18 +51,13 @@ class _LoginCardState extends State<LoginCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-
       width: 310.w,
-
       constraints: BoxConstraints(minHeight: 530.h),
-
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
-
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(20.r),
       ),
-
       child: BlocConsumer<LoginCubit, LoginState>(
         // يتابع نتيجة الطلب لإظهار رسالة للمستخدم أو الانتقال إلى الشاشة التالية.
         listener: (context, state) async {
@@ -75,7 +70,8 @@ class _LoginCardState extends State<LoginCard> {
                   .saveUserFullName(state.loginResponse.user.fullName);
               if (!context.mounted) return;
 
-              Navigator.pushReplacementNamed(context, AppRouter.home);
+              Navigator.pushReplacementNamed(context, AppRouter.interests,
+                  arguments: true);
             } else {
               Navigator.pushReplacementNamed(context, AppRouter.sellerHome);
             }
@@ -91,19 +87,12 @@ class _LoginCardState extends State<LoginCard> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
                 Text('تسجيل الدخول', style: AppTextStyles.screenTitle),
-
                 SizedBox(height: 4.h),
-
                 Text('سجل دخولك للمتابعة', style: AppTextStyles.screenSubtitle),
-
                 SizedBox(height: 18.h),
-
                 Text('البريد الإلكتروني', style: AppTextStyles.fieldLabel),
-
                 SizedBox(height: 5.h),
-
                 CustomTextField(
                   controller: emailController,
                   hintText: 'alaa@example.com',
@@ -112,13 +101,9 @@ class _LoginCardState extends State<LoginCard> {
                   textDirection: TextDirection.ltr,
                   validator: Validators.email,
                 ),
-
                 SizedBox(height: 12.h),
-
                 Text('كلمة المرور', style: AppTextStyles.fieldLabel),
-
                 SizedBox(height: 5.h),
-
                 CustomTextField(
                   controller: passwordController,
                   hintText: '••••••••••',
@@ -139,9 +124,7 @@ class _LoginCardState extends State<LoginCard> {
                     ),
                   ),
                 ),
-
                 SizedBox(height: 8.h),
-
                 Center(
                   child: state is LoginLoading
                       ? const CircularProgressIndicator()
@@ -165,9 +148,7 @@ class _LoginCardState extends State<LoginCard> {
                           },
                         ),
                 ),
-
                 SizedBox(height: 8.h),
-
                 Align(
                   alignment: Alignment.centerLeft,
                   child: GestureDetector(
@@ -179,9 +160,7 @@ class _LoginCardState extends State<LoginCard> {
                         style: AppTextStyles.linkText),
                   ),
                 ),
-
                 SizedBox(height: 26.h),
-
                 Row(
                   children: [
                     const Expanded(
@@ -196,11 +175,8 @@ class _LoginCardState extends State<LoginCard> {
                     ),
                   ],
                 ),
-
                 SizedBox(height: 15.h),
-
                 Row(
-
                   textDirection: TextDirection.ltr,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -235,21 +211,19 @@ class _LoginCardState extends State<LoginCard> {
                     ),
                   ],
                 ),
-
                 SizedBox(height: 18.h),
-
-                Center(
-                  child: AuthLinkText(
-                    text: 'ليس لديك حساب؟ ',
-                    actionText: 'إنشاء حساب جديد',
-                    onTap: () {
-                      Navigator.pushNamed(context, AppRouter.register);
-                    },
+                // إنشاء الحساب للزبائن فقط؛ حسابات التجار ينشئها الأدمن.
+                if (selectedType == LoginType.consumer)
+                  Center(
+                    child: AuthLinkText(
+                      text: 'ليس لديك حساب؟ ',
+                      actionText: 'إنشاء حساب جديد',
+                      onTap: () {
+                        Navigator.pushNamed(context, AppRouter.register);
+                      },
+                    ),
                   ),
-                ),
-
                 SizedBox(height: 20.h),
-
                 Center(
                   child: GestureDetector(
                     // لا يرسل الطلب إلا بعد اجتياز الحقول لقواعد التحقق.
@@ -273,7 +247,6 @@ class _LoginCardState extends State<LoginCard> {
                     ),
                   ),
                 ),
-
                 SizedBox(height: 10.h),
               ],
             ),

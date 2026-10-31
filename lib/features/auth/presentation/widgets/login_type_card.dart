@@ -35,14 +35,11 @@ class LoginTypeCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-
         width: 129.w,
         height: 91.h,
-
         padding: EdgeInsets.symmetric(
           vertical: 5.h,
         ),
-
         decoration: BoxDecoration(
           color: isSelected
               ? AppColors.selectedCardBackground
@@ -53,7 +50,6 @@ class LoginTypeCard extends StatelessWidget {
             width: isSelected ? 1.2.w : 1.w,
           ),
         ),
-
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -62,9 +58,7 @@ class LoginTypeCard extends StatelessWidget {
               size: 28.sp,
               color: mainColor,
             ),
-
             SizedBox(height: 3.h),
-
             SizedBox(
               width: 121.w,
               child: FittedBox(
@@ -78,9 +72,7 @@ class LoginTypeCard extends StatelessWidget {
                 ),
               ),
             ),
-
             SizedBox(height: 3.h),
-
             SizedBox(
               width: 121.w,
               child: FittedBox(

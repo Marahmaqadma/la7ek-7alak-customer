@@ -15,7 +15,6 @@ class RegisterResponse {
 
 // معرّف المستخدم النصي واسمه وبريده ودوره كما تعيدها خدمة المصادقة.
 class UserData {
-
   final String id;
   final String fullName;
   final String email;

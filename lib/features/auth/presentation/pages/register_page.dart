@@ -7,6 +7,8 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/routing/app_router.dart';
 import '../../../../core/services/storage_service.dart';
 import '../../data/models/register/register_request_body.dart';
+import '../cubit/cities/cities_cubit.dart';
+import 'location_picker_page.dart';
 import '../cubit/register/register_cubit.dart';
 
 import 'package:la7ek_7alak/features/auth/presentation/widgets/register_widgets/register_header_widget.dart';
@@ -14,6 +16,7 @@ import 'package:la7ek_7alak/features/auth/presentation/widgets/register_widgets/
 import 'package:la7ek_7alak/features/auth/presentation/widgets/register_widgets/register_form_widget.dart';
 
 // شاشة إنشاء حساب جديد مع التحقق من المدخلات قبل الإرسال.
+// التسجيل للزبائن فقط؛ حسابات التجار ينشئها الأدمن.
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
@@ -96,6 +99,50 @@ class _RegisterPageState extends State<RegisterPage> {
     super.dispose();
   }
 
+  // يفتح الخريطة، ثم يختار أقرب مدينة من قائمة الخادم للنقطة المؤكدة.
+  // يرجع اسم المدينة ليتحقق منه الحقل، أو null إن لم يكتمل الاختيار.
+  Future<String?> _pickCity(CitiesState citiesState) async {
+    final messenger = ScaffoldMessenger.of(context);
+    void warn(String message) => messenger
+      ..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(
+        content: Text(message, textAlign: TextAlign.right),
+      ));
+
+    // بدون قائمة المدن لا نستطيع تحويل النقطة لمدينة.
+    if (citiesState.cities.isEmpty) {
+      if (citiesState.status != CitiesStatus.loading) {
+        context.read<CitiesCubit>().load();
+      }
+      warn(citiesState.status == CitiesStatus.error
+          ? (citiesState.error ?? 'تعذر تحميل المدن')
+          : 'جاري تحميل المدن، حاول بعد لحظات');
+      return null;
+    }
+
+    // نبدأ من المدينة المختارة سابقًا إن وُجدت.
+    final previous =
+        citiesState.cities.where((c) => c.area == _selectedCity).firstOrNull;
+    final previousLat = previous?.latitude;
+    final previousLng = previous?.longitude;
+    final picked = await Navigator.pushNamed<PickedLocation>(
+      context,
+      AppRouter.locationPicker,
+      arguments: previousLat == null || previousLng == null
+          ? null
+          : (latitude: previousLat, longitude: previousLng),
+    );
+    if (picked == null || !mounted) return null;
+
+    final city = citiesState.nearestCity(picked.latitude, picked.longitude);
+    if (city == null) {
+      warn('تعذر تحديد المدينة، حاول مرة أخرى');
+      return null;
+    }
+    setState(() => _selectedCity = city.area);
+    return city.area;
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<RegisterCubit, RegisterState>(
@@ -135,42 +182,48 @@ class _RegisterPageState extends State<RegisterPage> {
                           child: const RegisterHeaderWidget(),
                         ),
                         SizedBox(height: 15.h),
-                        RegisterFormWidget(
-                          isLoading: state is RegisterLoading,
-                          formKey: _formKey,
-                          fullNameController: _fullNameController,
-                          emailController: _emailController,
-                          phoneController: _phoneController,
-                          passwordController: _passwordController,
-                          confirmPasswordController: _confirmPasswordController,
-                          selectedCity: _selectedCity,
-                          emailValid: _emailValid,
-                          phoneValid: _phoneValid,
-                          passwordValid: _passwordValid,
-                          confirmPasswordValid: _confirmPasswordValid,
-                          isPasswordObscured: _isPasswordObscured,
-                          isConfirmPasswordObscured: _isConfirmPasswordObscured,
-                          onCitySelected: (city) =>
-                              setState(() => _selectedCity = city),
-                          onEyeTapPassword: () => setState(
-                              () => _isPasswordObscured = !_isPasswordObscured),
-                          onEyeTapConfirmPassword: () => setState(() =>
-                              _isConfirmPasswordObscured =
-                                  !_isConfirmPasswordObscured),
-                          // يفحص النموذج قبل إرسال بيانات الحساب إلى مدير حالة التسجيل.
-                          onSubmit: () {
-                            if (_formKey.currentState!.validate()) {
-                              context.read<RegisterCubit>().register(
-                                    RegisterRequestBody(
-                                      fullName: _fullNameController.text.trim(),
-                                      email: _emailController.text.trim(),
-                                      phone: _phoneController.text.trim(),
-                                      password: _passwordController.text.trim(),
-                                      role: 'consumer',
-                                    ),
-                                  );
-                            }
-                          },
+                        BlocBuilder<CitiesCubit, CitiesState>(
+                          builder: (context, citiesState) => RegisterFormWidget(
+                            onPickCity: () => _pickCity(citiesState),
+                            isLoading: state is RegisterLoading,
+                            formKey: _formKey,
+                            fullNameController: _fullNameController,
+                            emailController: _emailController,
+                            phoneController: _phoneController,
+                            passwordController: _passwordController,
+                            confirmPasswordController:
+                                _confirmPasswordController,
+                            selectedCity: _selectedCity,
+                            emailValid: _emailValid,
+                            phoneValid: _phoneValid,
+                            passwordValid: _passwordValid,
+                            confirmPasswordValid: _confirmPasswordValid,
+                            isPasswordObscured: _isPasswordObscured,
+                            isConfirmPasswordObscured:
+                                _isConfirmPasswordObscured,
+                            onEyeTapPassword: () => setState(() =>
+                                _isPasswordObscured = !_isPasswordObscured),
+                            onEyeTapConfirmPassword: () => setState(() =>
+                                _isConfirmPasswordObscured =
+                                    !_isConfirmPasswordObscured),
+                            // يفحص النموذج قبل إرسال بيانات الحساب إلى مدير حالة التسجيل.
+                            onSubmit: () {
+                              if (_formKey.currentState!.validate()) {
+                                context.read<RegisterCubit>().register(
+                                      RegisterRequestBody(
+                                        fullName:
+                                            _fullNameController.text.trim(),
+                                        email: _emailController.text.trim(),
+                                        phone: _phoneController.text.trim(),
+                                        password:
+                                            _passwordController.text.trim(),
+                                        role: 'consumer',
+                                        address: _selectedCity,
+                                      ),
+                                    );
+                              }
+                            },
+                          ),
                         ),
                       ],
                     ),

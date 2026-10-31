@@ -5,11 +5,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 class ErrorHandler {
   late String message;
 
+  // خطأ برسالة جاهزة من منطق التطبيق (مثل نوع حساب لا يطابق المختار).
+  ErrorHandler.withMessage(this.message);
+
   ErrorHandler.handle(dynamic error) {
     if (error is DioException) {
       message = _handleDioError(error);
     } else if (error is FirebaseAuthException) {
-
       message = _handleFirebaseAuthError(error);
     } else {
       message = "حدث خطأ غير متوقع، يرجى المحاولة لاحقاً";
@@ -24,14 +26,25 @@ class ErrorHandler {
       case DioExceptionType.receiveTimeout:
         return "انتهت فترة الاتصال بالخادم";
       case DioExceptionType.badResponse:
-        return dioError.response?.data['error'] ?? dioError.response?.data['message'] ?? "حدث خطأ في الخادم";
+        return _extractServerMessage(dioError.response?.data) ??
+            "حدث خطأ في الخادم";
       case DioExceptionType.cancel:
         return "تم إلغاء الطلب";
+      case DioExceptionType.connectionError:
       case DioExceptionType.unknown:
         return "تحقق من اتصالك بالإنترنت";
       default:
         return "حدث خطأ غير معروف";
     }
+  }
+
+// يقرأ رسالة الخادم فقط إذا كان الرد JSON بالشكل المتوقع.
+  String? _extractServerMessage(dynamic data) {
+    if (data is Map) {
+      final message = data['error'] ?? data['message'];
+      if (message is String && message.isNotEmpty) return message;
+    }
+    return null;
   }
 
   // يحوّل رمز خطأ Firebase إلى رسالة عربية مفهومة.

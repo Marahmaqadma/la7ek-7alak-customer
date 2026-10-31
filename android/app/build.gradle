@@ -7,36 +7,19 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
 }
 
-/*def localProperties = new java.util.Properties()
-def localPropertiesFile = rootProject.file('local.properties')
-if (localPropertiesFile.exists()) {
-    localPropertiesFile.withReader('UTF-8') { reader ->
-        localProperties.load(reader)
-    }
-}
-
-def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
-if (flutterVersionCode == null) {
-    flutterVersionCode = '1'
-}
-
-def flutterVersionName = localProperties.getProperty('flutter.versionName')
-if (flutterVersionName == null) {
-    flutterVersionName = '1.0'
-}
-*/
 android {
     namespace "com.example.la7ek_7alak"
     compileSdk flutter.compileSdkVersion
     ndkVersion "27.0.12077973"
 
+    // تم التحديث هنا لدعم الإصدارات الحديثة
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '11'
     }
 
     sourceSets {
@@ -44,7 +27,7 @@ android {
     }
     defaultConfig {
         applicationId "com.example.la7ek_7alak"
-        minSdkVersion 23
+        minSdkVersion 23 // ممتازة ومتوافقة تماماً
         targetSdkVersion flutter.targetSdkVersion
         versionCode 1
         versionName "1.0"
@@ -52,8 +35,6 @@ android {
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
         }
     }
@@ -62,5 +43,3 @@ android {
 flutter {
     source '../..'
 }
-
-dependencies {}

@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 	<dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>نستخدم موقعك لعرض المتاجر القريبة منك على الخريطة.</string>
 		<key>NSCameraUsageDescription</key>
 		<string>نحتاج الكاميرا حتى تتمكن من إضافة صورة لحسابك.</string>
 		<key>NSPhotoLibraryUsageDescription</key>

@@ -8,24 +8,22 @@ part 'register_state.dart';
 
 // يدير طلب إنشاء الحساب وينقل الواجهة بين الانتظار والنجاح والخطأ.
 class RegisterCubit extends Cubit<RegisterState> {
-
   final AuthRepository authRepository;
 
   RegisterCubit(this.authRepository) : super(RegisterInitial());
 
   // يبدأ حالة الانتظار ثم يرسل طلب إنشاء الحساب ويصدر حالة النجاح أو الخطأ.
-  void register(RegisterRequestBody body) {
-
+  Future<void> register(RegisterRequestBody body) async {
     emit(RegisterLoading());
 
-    authRepository.register(body).then((result) {
+    final result = await authRepository.register(body);
 
-      result.fold(
+    // المستخدم ممكن يغادر الشاشة قبل وصول الرد.
+    if (isClosed) return;
 
-        (errorHandler) => emit(RegisterError(errorHandler.message)),
-
-        (registerResponse) => emit(RegisterSuccess(registerResponse)),
-      );
-    });
+    result.fold(
+      (errorHandler) => emit(RegisterError(errorHandler.message)),
+      (registerResponse) => emit(RegisterSuccess(registerResponse)),
+    );
   }
 }

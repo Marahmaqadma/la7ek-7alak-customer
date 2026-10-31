@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../core/error/error_handler.dart';
+import '../../data/models/city/city_model.dart';
 import '../../data/models/login/login_request_body.dart';
 import '../../data/models/register/register_request_body.dart';
 import '../../data/models/login/login_response.dart';
@@ -28,4 +29,11 @@ abstract class AuthRepository {
   // عقد عملية تعيين كلمة المرور؛ يحدد المدخلات ونوع النتيجة دون تنفيذ الاتصال هنا.
   Future<Either<ErrorHandler, ResetPasswordResponse>> resetPassword(
       ResetPasswordRequestBody body);
+  // ينهي الجلسة ويمسح بيانات الدخول المحفوظة على الجهاز.
+  Future<Either<ErrorHandler, Unit>> logout();
+  // نوع حساب المستخدم المسجل (consumer | merchant) لإكمال الجلسة عند فتح
+  // التطبيق، أو null إن لم يكن مسجلًا.
+  Future<String?> restoreSession();
+  // قائمة المدن لحقل المدينة في التسجيل.
+  Future<Either<ErrorHandler, List<CityModel>>> getCities();
 }

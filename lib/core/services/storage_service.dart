@@ -6,6 +6,7 @@ class StorageService {
   static const _selectedCityKey = 'selected_city';
   static const _userFullNameKey = 'user_full_name';
   static const _profileImagePathKey = 'profile_image_path';
+  static const _userRoleKey = 'user_role';
 
   final FlutterSecureStorage _storage;
 
@@ -26,6 +27,27 @@ class StorageService {
   // يحذف رمز الدخول المحلي فقط؛ لا يستدعي تسجيل الخروج من Firebase.
   Future<void> deleteToken() async {
     await _storage.delete(key: _tokenKey);
+  }
+
+  // يمسح كل بيانات المستخدم المحفوظة عند تسجيل الخروج، حتى لا تظهر لمستخدم آخر.
+  Future<void> clearSession() async {
+    await Future.wait([
+      _storage.delete(key: _tokenKey),
+      _storage.delete(key: _userFullNameKey),
+      _storage.delete(key: _selectedCityKey),
+      _storage.delete(key: _profileImagePathKey),
+      _storage.delete(key: _userRoleKey),
+    ]);
+  }
+
+  // نوع الحساب (consumer | merchant) عند الدخول، لنفتح الرئيسية الصحيحة
+  // تلقائيًا عند إعادة فتح التطبيق.
+  Future<void> saveUserRole(String role) async {
+    await _storage.write(key: _userRoleKey, value: role);
+  }
+
+  Future<String?> getUserRole() {
+    return _storage.read(key: _userRoleKey);
   }
 
   // يحفظ المدينة المختارة لتظهر في الملف الشخصي لاحقًا.

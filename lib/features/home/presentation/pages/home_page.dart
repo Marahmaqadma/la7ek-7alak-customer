@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -81,9 +82,11 @@ class _HomeBody extends StatelessWidget {
     );
   }
 
-  // يحذف رمز الدخول المحلي ويفتح شاشة اختيار نوع الحساب.
-  void _logout(BuildContext context) {
-    const StorageService().deleteToken();
-    Navigator.pushReplacementNamed(context, AppRouter.login);
+  // يسجّل الخروج من Firebase ويحذف الرمز المحلي ثم يفتح شاشة اختيار نوع الحساب.
+  Future<void> _logout(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    await const StorageService().deleteToken();
+    if (!context.mounted) return;
+    Navigator.pushNamedAndRemoveUntil(context, AppRouter.login, (_) => false);
   }
 }

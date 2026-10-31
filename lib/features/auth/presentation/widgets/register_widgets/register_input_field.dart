@@ -120,7 +120,6 @@ class RegisterInputField extends StatelessWidget {
                           : null,
                 ),
               ),
-
               if (hasError) ...[
                 SizedBox(height: 4.h),
                 Text(

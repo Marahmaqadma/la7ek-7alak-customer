@@ -24,7 +24,6 @@ class LoginResponse {
 // معرّف المستخدم النصي واسمه وبريده ودوره كما تعيدها خدمة المصادقة.
 @JsonSerializable(createToJson: false)
 class UserData {
-
   final String id;
   @JsonKey(name: 'fullName')
   final String fullName;

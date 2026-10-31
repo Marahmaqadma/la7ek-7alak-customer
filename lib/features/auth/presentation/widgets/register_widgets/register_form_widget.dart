@@ -14,13 +14,14 @@ class RegisterFormWidget extends StatelessWidget {
   final TextEditingController passwordController;
   final TextEditingController confirmPasswordController;
   final String? selectedCity;
+  // يفتح الخريطة ويرجع اسم أقرب مدينة للنقطة المؤكدة (أو null).
+  final Future<String?> Function() onPickCity;
   final bool emailValid;
   final bool phoneValid;
   final bool passwordValid;
   final bool confirmPasswordValid;
   final bool isPasswordObscured;
   final bool isConfirmPasswordObscured;
-  final Function(String?) onCitySelected;
   final VoidCallback onEyeTapPassword;
   final VoidCallback onEyeTapConfirmPassword;
   final VoidCallback onSubmit;
@@ -35,13 +36,13 @@ class RegisterFormWidget extends StatelessWidget {
     required this.passwordController,
     required this.confirmPasswordController,
     required this.selectedCity,
+    required this.onPickCity,
     required this.emailValid,
     required this.phoneValid,
     required this.passwordValid,
     required this.confirmPasswordValid,
     required this.isPasswordObscured,
     required this.isConfirmPasswordObscured,
-    required this.onCitySelected,
     required this.onEyeTapPassword,
     required this.onEyeTapConfirmPassword,
     required this.onSubmit,
@@ -92,10 +93,8 @@ class RegisterFormWidget extends StatelessWidget {
               showCheck: true,
               isChecked: phoneValid,
               keyboardType: TextInputType.phone,
-              textDirection: TextDirection
-                  .ltr,
-              textAlign: TextAlign
-                  .right,
+              textDirection: TextDirection.ltr,
+              textAlign: TextAlign.right,
             ),
             SizedBox(height: 12.h),
             RegisterInputField(
@@ -128,9 +127,9 @@ class RegisterFormWidget extends StatelessWidget {
             // اختيار المدينة مطلوب قبل السماح بتسجيل الحساب.
             RegisterDropdownField(
               label: 'المدينة',
-              hint: 'اختر مدينتك',
+              hint: 'حدد موقعك على الخريطة',
               selectedCity: selectedCity,
-              onCitySelected: onCitySelected,
+              onPickCity: onPickCity,
             ),
             SizedBox(height: 30.h),
             // استبدال زر الإرسال بمؤشر تحميل أثناء انتظار الطلب.

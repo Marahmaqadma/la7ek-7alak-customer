@@ -19,7 +19,9 @@ void main() {
         appRouter: AppRouter(
             authRepository: AuthRepositoryImpl(MockAuthRemoteDataSource()))));
 
-    await tester.pump();
+    // التطبيق يبدأ بالسبلاش؛ الفيديو لا يعمل في الاختبار فتنتقل فورًا
+    // لشاشة الترحيب. ننتظر انتهاء الانتقال.
+    await tester.pumpAndSettle();
 
     expect(find.text('أهلاً بك في لحق حالك'), findsOneWidget);
   });
